@@ -6,12 +6,12 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
   FMX.Layouts, FMX.Memo, System.Json, Rest.Json, FMX.TreeView, TypInfo, RTTI,
-  regularexpressions, generics.collections, Pkg.Json.Mapper, NetEncoding,
+  regularexpressions, generics.collections, Pkg.Json.Mapper, System.NetEncoding,
   FMX.Menus, FMX.Controls.Presentation, FMX.Edit, FMX.ConstrainedForm, REST.Client,
   uUpdate, System.Threading, uGitHub, FMX.Objects, uUpdateForm, SyncObjs,
-  FMX.ScrollBox;
+  FMX.ScrollBox, FMX.Memo.Types;
 
-const JsonValidatorUrl = 'http://jsonlint.com';
+const JsonValidatorUrl = 'https://jsonlint.com';
 
 type
 
