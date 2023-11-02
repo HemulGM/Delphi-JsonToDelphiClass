@@ -104,6 +104,7 @@ type
     FRootClass: TStubClass;
     FUnitName: string;
     FMergedTypes: TList<TMergeType>;
+    FSort: Boolean;
     procedure SetUnitName(const Value: string);
     procedure MergeClasses(LClass: TStubClass);
     procedure MergeClass(SourceClass, TargetClass: TStubClass);
@@ -121,7 +122,7 @@ type
     constructor Create(ATreeView: TTreeView);
     destructor Destroy; override;
       //  Parses a JSON string and creates internal stub class structure
-    procedure Parse(AJsonString: string; ARootClassName: string = 'Root');
+    procedure Parse(AJsonString: string; AMerge: Boolean; ASort: Boolean; ARootClassName: string = 'Root');
       //  Generates resultant unit
     function GenerateUnit: string;
     procedure Debug(ALines: TStrings);
@@ -137,9 +138,6 @@ var
   PointDsFormatSettings: TFormatSettings;
 
 implementation
-
-uses
-  uUpdate;
 
 var
   ReservedWords: TList<string>;
@@ -403,8 +401,6 @@ begin
       if LClass.Merged then
         Continue;
 
-      MergeClasses(LClass);
-
       LList.Add(LClass.GetDeclarationPart.TrimRight);
       if k <> 0 then
         LList.Add('');
@@ -442,17 +438,17 @@ begin
     if FRootClass <> nil then
     begin
       LItem := TTreeViewItem.Create(ATreeView);
-      LItem.Text := FRootClass.Name;
+      LItem.Text := FRootClass.MergedName;
       LItem.TagObject := FRootClass;
-      LItem.WordWrap := false;
+      LItem.WordWrap := False;
       ATreeView.AddObject(LItem);
       InternalVisualize(LItem, FRootClass, AItemStyleLookup);
       FormatFields(ATreeView);
     end;
   finally
-    ATreeView.EndUpdate;
     if ATreeView.GlobalCount > 0 then
       ATreeView.ItemByGlobalIndex(0).Expand;
+    ATreeView.EndUpdate;
   end;
 end;
 
@@ -575,7 +571,8 @@ var
   LItem: TTreeViewItem;
   k: Integer;
   LSize, LPos: integer;
-begin     Exit;
+begin
+  Exit;
   LSize := 0;
 
   //  Find max len
@@ -605,7 +602,6 @@ var
 begin
   for LField in AClass.FItems do
   begin
-
     LItem := TTreeViewItem.Create(ATreeViewItem);
     LItem.StyleLookup := AItemStyleLookup;
     LItem.TagObject := LField;
@@ -614,12 +610,14 @@ begin
     case LField.FieldType of
       jtObject:
         begin
-          LItem.Text := LField.Name + ': ' + LField.GetTypeAsString;
+          LItem.Text := LField.Name;
+          LItem.StylesData['details'] := ': ' + LField.GetTypeAsString;
           InternalVisualize(LItem, (LField as TStubObjectField).FieldClass, AItemStyleLookup);
         end;
       jtArray:
         begin
-          LItem.Text := LField.Name + ': ' + LField.GetTypeAsString;
+          LItem.Text := LField.Name;
+          LItem.StylesData['details'] := ': ' + LField.GetTypeAsString;
           if (LField as TStubArrayField).ContainedType = jtObject then
           begin
             InternalVisualize(LItem, (LField as TStubArrayField).FieldClass, AItemStyleLookup);
@@ -627,7 +625,8 @@ begin
         end;
     else
       begin
-        LItem.Text := LField.Name + ': ' + LField.GetTypeAsString;
+        LItem.Text := LField.Name;
+        LItem.StylesData['details'] := ': ' + LField.GetTypeAsString;
       end;
     end;
 
@@ -635,20 +634,20 @@ begin
   end;
 end;
 
-procedure TPkgJsonMapper.Parse(AJsonString: string; ARootClassName: string);
+procedure TPkgJsonMapper.Parse(AJsonString: string; AMerge: Boolean; ASort: Boolean; ARootClassName: string);
 var
   LJsonValue, LJsonValue2: TJSONValue;
   LJsonType: TJsonType;
   LClass: TStubClass;
 begin
-
   ClearClasses;
+  FSort := ASort;
 
   LJsonValue := TJSONObject.ParseJSONValue(AJsonString);
   if LJsonValue <> nil then
   begin
     try
-      FRootClass := TStubClass.Create(nil, ARootClassName, self);
+      FRootClass := TStubClass.Create(nil, ARootClassName, Self);
 
       case GetJsonType(LJsonValue) of
         jtObject:
@@ -664,7 +663,7 @@ begin
             if LJsonValue2 <> nil then
             begin
               LJsonType := GetJsonType(LJsonValue2);
-              LClass := TStubClass.Create(FRootClass, 'Item', self);
+              LClass := TStubClass.Create(FRootClass, 'Item', Self);
             end;
 
             FRootClass.ArrayProperty := 'Items';
@@ -672,14 +671,15 @@ begin
             ProcessJsonObject(LJsonValue2, LClass);
           end;
       end;
+      if AMerge then
+        for var i := FClasses.Count - 1 downto 0 do
+          MergeClasses(FClasses[i]);
     finally
       LJsonValue.Free;
     end;
   end
   else
     raise EJsonMapper.Create('Unable to parse the JSON String!');
-
-  FTreeView.ExpandAll;
 end;
 
 { TVirtualClass }
@@ -822,7 +822,8 @@ end;
 
 procedure TStubClass.SortFields;
 begin
-  FItems.Sort(FComparer);
+  if FMapper.FSort then
+    FItems.Sort(FComparer);
 end;
 
 function TStubClass.GetDeclarationPart: string;

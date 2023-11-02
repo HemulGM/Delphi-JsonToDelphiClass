@@ -196,6 +196,7 @@ type
     FNeedSelectorPoints: Boolean;
     FScrollToCaret: Boolean;
     FLinesBackgroundColor: TDictionary<Integer, TAlphaColor>;
+    FOnCaretMove: TNotifyEvent;
     function GetModel: TCustomMemoModel;
     function GetMemo: TCustomMemo;
     function GetPageSize: Single;
@@ -235,6 +236,7 @@ type
     procedure SetNeedSelectorPoints(const Value: Boolean);
     procedure SetScrollToCaret(const Value: Boolean);
     procedure UpdateLinesPos;
+    procedure SetOnCaretMove(const Value: TNotifyEvent);
   protected
     FDisableCaretInsideWords: Boolean;
     { Messages from model }
@@ -390,6 +392,7 @@ type
     function GetWordAtPos(const X, Y: Single; out BeginWord, Line: Int64): string;
     procedure UpdateVisibleLayoutParams; overload;
     procedure UpdateVisibleLayoutParams(const Index: Integer); overload;
+    property OnCaretMove: TNotifyEvent read FOnCaretMove write SetOnCaretMove;
     property LinesBackgroundColor: TDictionary<Integer, TAlphaColor> read FLinesBackgroundColor;
   end;
 
@@ -506,13 +509,13 @@ begin
   //Timer to start scrolling when selecting text and cursor is out of content
   FStartAutoScrollTimer := TTimer.Create(Self);
   FStartAutoScrollTimer.Enabled := False;
-  FStartAutoScrollTimer.Interval := 300;
+  FStartAutoScrollTimer.Interval := 150;
   FStartAutoScrollTimer.OnTimer := StartAutoScrollHandler;
   FAutoVScrollTimer := TTimer.Create(Self);
-  FAutoVScrollTimer.Interval := 50;
+  FAutoVScrollTimer.Interval := 20;
   FAutoVScrollTimer.Enabled := False;
   FAutoHScrollTimer := TTimer.Create(Self);
-  FAutoHScrollTimer.Interval := 50;
+  FAutoHScrollTimer.Interval := 20;
   FAutoHScrollTimer.Enabled := False;
   Touch.InteractiveGestures := Touch.InteractiveGestures + [TInteractiveGesture.DoubleTap, TInteractiveGesture.LongTap];
 
@@ -1418,7 +1421,10 @@ procedure TStyledMemo.DoContentPaint(Sender: TObject; Canvas: TCanvas; const ARe
   begin
     Canvas.Fill.Kind := TBrushKind.Solid;
     Canvas.Fill.Color := Color;
-    Canvas.FillRect(Layout.TextRect, 1);
+    var R := Layout.TextRect;
+    R.Width := Width;
+    R.Bottom := R.Bottom + 1;
+    Canvas.FillRect(R, 1);
   end;
 
 var
@@ -1861,6 +1867,8 @@ begin
   finally
     Model.EnableNotify;
   end;
+  if Assigned(FOnCaretMove) then
+    FOnCaretMove(Self);
 end;
 
 procedure TStyledMemo.UpdateSelectionPointPositions;
@@ -2430,6 +2438,11 @@ begin
   UpdateSelectionInModel;
 end;
 
+procedure TStyledMemo.SetOnCaretMove(const Value: TNotifyEvent);
+begin
+  FOnCaretMove := Value;
+end;
+
 procedure TStyledMemo.SetOnUpdateLayoutParams(const Value: TOnUpdateLayoutParams);
 begin
   FOnUpdateLayoutParams := Value;
@@ -2597,6 +2610,8 @@ begin
   finally
     Model.Caret.EndUpdate;
   end;
+  if Assigned(FOnCaretMove) then
+    FOnCaretMove(Self);
 end;
 
 function TStyledMemo.IsCurrentWordWrong: Boolean;
@@ -3008,7 +3023,7 @@ begin
     end;
   end;
   if FContent <> nil then
-    Result.TopLeft :=  ConvertLocalPointFrom(FContent, Result.TopLeft);
+    Result.TopLeft := ConvertLocalPointFrom(FContent, Result.TopLeft);
 end;
 
 function TStyledMemo.GetSelectionRegion: TRegion;
@@ -3361,8 +3376,13 @@ begin
       ((Pt.Y < FLines[I].Rect.Bottom) or SameValue(Pt.Y, FLines[I].Rect.Bottom, TEpsilon.Position)) then
     begin
       Layout := FLines[I].Layout;
+      {if Layout = nil then
+        Continue;    }
       if Layout = nil then
-        Continue;
+      begin
+        Layout := CreateLayout(FMemo.Model.Lines[I], I);
+        Layout.TopLeft := FLines[I].Rect.TopLeft;
+      end;
       try
         Point := TPointF.Create(EnsureRange(Pt.X, Layout.TextRect.Left, Layout.TextRect.Right), Pt.Y);
         LPos := Layout.PositionAtPoint(Point, RoundToWord);
@@ -3506,6 +3526,8 @@ begin
   else
     LineSize := TPointF.Zero;
   FLines.Delete(Index);
+  if FMemo.GetMemo.IsUpdating then
+    Exit;
   Content := TRectF.Create(TPointF.Zero, FMemo.Model.ViewportSize);
   if not LineSize.IsZero then
     for I := Index to FLines.Count - 1 do
@@ -3520,6 +3542,7 @@ begin
   else
     for I := Index to FLines.Count - 1 do
       FLines[I].FreeLayout;
+
 
   if not LineSize.IsZero then
   begin
