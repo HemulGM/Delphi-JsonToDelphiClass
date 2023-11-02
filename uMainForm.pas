@@ -7,26 +7,24 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
   FMX.Layouts, FMX.Memo, System.Json, Rest.Json, FMX.TreeView, TypInfo, RTTI,
   regularexpressions, generics.collections, Pkg.Json.Mapper, System.NetEncoding,
-  FMX.Menus, FMX.Controls.Presentation, FMX.Edit, FMX.ConstrainedForm, REST.Client,
-  uUpdate, System.Threading, uGitHub, FMX.Objects, uUpdateForm, SyncObjs,
-  FMX.ScrollBox, FMX.Memo.Types;
+  FMX.Menus, FMX.Controls.Presentation, FMX.Edit, FMX.ConstrainedForm,
+  REST.Client, uUpdate, System.Threading, uGitHub, FMX.Objects, uUpdateForm,
+  SyncObjs, FMX.ScrollBox, FMX.Memo.Types, FMX.Effects, FMX.Filter.Effects,
+  FMX.Memo.Style, ChatGPT.Code, FMX.TextLayout, FMX.Ani;
 
-const JsonValidatorUrl = 'https://jsonlint.com';
+const
+  JsonValidatorUrl = 'https://jsonlint.com';
 
 type
-
   TMainForm = class(TConstrainedForm)
     Memo1: TMemo;
     tv: TTreeView;
-    StyleBook1: TStyleBook;
-    StatusBar1: TStatusBar;
-    Label1: TLabel;
     MainPopupMenu: TPopupMenu;
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
-    Panel1: TPanel;
-    Panel2: TPanel;
+    Panel1: TLayout;
+    Panel2: TLayout;
     Splitter1: TSplitter;
     Panel3: TPanel;
     btnVisualize: TButton;
@@ -34,16 +32,16 @@ type
     btnExit: TButton;
     Label3: TLabel;
     Label4: TLabel;
-    Edit2: TEdit;
-    Label5: TLabel;
     MemoPopupMenu: TPopupMenu;
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
     MenuItem7: TMenuItem;
-    Panel4: TPanel;
     MenuItem8: TMenuItem;
     btnGenerateUnit: TButton;
+    StyleBookMD3: TStyleBook;
+    Label5: TLabel;
+    Edit2: TEdit;
     procedure btnVisualizeClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -51,34 +49,26 @@ type
     procedure btnExitClick(Sender: TObject);
     procedure MainPopupMenuPopup(Sender: TObject);
     procedure tvDblClick(Sender: TObject);
-    procedure Memo1DblClick(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
     procedure MenuItem5Click(Sender: TObject);
-    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-    procedure Label1Click(Sender: TObject);
-    procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
-      Shift: TShiftState);
-    procedure tvKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
-      Shift: TShiftState);
-    procedure Panel1Resize(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
+    procedure tvKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
     procedure MenuItem8Click(Sender: TObject);
     procedure btnOnlineJsonValidatorClick(Sender: TObject);
+    procedure Memo1Change(Sender: TObject);
+    procedure Memo1ChangeTracking(Sender: TObject);
+    procedure MenuItem4Click(Sender: TObject);
   private
-    { Private declarations }
     procedure DisableMenuItems;
     procedure VisualizeClass;
     procedure PrepareMenu;
-    procedure DisableGuiElements;
+    procedure UpdateLayout(Sender: TObject; Layout: TTextLayout; const Index: Integer);
   public
-    { Public declarations }
     jm: TPkgJsonMapper;
+    FCodeSyntax: TCodeSyntax;
+    FStyledMemo: TStyledMemo;
     FCheckVersionResponse: TObject;
     FChanged: boolean;
-    //  0: Active
-    //  1: Terminating
-    //  >=2: Terminated
-    FApplicationStatus: integer;
-    FUpdateCheckEvent: TEvent;
   end;
 
 var
@@ -88,13 +78,14 @@ implementation
 
 {$R *.fmx}
 
-uses uSaveUnitForm,
-{$IFDEF MSWINDOWS}
-  Winapi.ShellAPI, Winapi.Windows;
-{$ENDIF MSWINDOWS}
-{$IFDEF POSIX}
-  Posix.Stdlib;
-{$ENDIF POSIX}
+uses
+  uSaveUnitForm,
+  {$IFDEF MSWINDOWS}
+  Winapi.ShellAPI, Winapi.Windows,
+  {$ENDIF MSWINDOWS}
+  {$IFDEF POSIX}
+  Posix.Stdlib,
+  {$ENDIF POSIX} FMX.DialogService, FMX.BehaviorManager;
 
 procedure TMainForm.btnOnlineJsonValidatorClick(Sender: TObject);
 begin
@@ -104,26 +95,14 @@ end;
 procedure TMainForm.btnVisualizeClick(Sender: TObject);
 begin
   if FChanged then
-    MessageDlg('You made changes to the structure. Do you want to load original class?', TMsgDlgType.mtWarning, [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0,
+    TDialogService.MessageDialog('You made changes to the structure. Do you want to load original class?', TMsgDlgType.mtWarning, [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], TMsgDlgBtn.mbNo, 0,
       procedure(const AResult: TModalResult)
       begin
         if AResult = mrYes then
           VisualizeClass;
-      end
-    )
+      end)
   else
     VisualizeClass;
-end;
-
-procedure TMainForm.DisableGuiElements;
-begin
-  edit2.Enabled := false;
-  Memo1.Enabled := false;
-  tv.Enabled := false;
-  tv.PopupMenu := nil;
-  btnExit.Enabled := false;
-  btnVisualize.Enabled := false;
-  btnGenerateUnit.Enabled := false;
 end;
 
 procedure TMainForm.DisableMenuItems;
@@ -142,18 +121,12 @@ begin
     btnVisualizeClick(self);
 
   jm.DestinationUnitName := edit2.Text;
+  SaveUnitForm.StyleBook := StyleBook;
   SaveUnitForm.sd.FileName := jm.DestinationUnitName + '.pas';
 
   SaveUnitForm.Memo1.DeleteSelection;
   SaveUnitForm.Memo1.Text := jm.GenerateUnit;
   SaveUnitForm.Caption := 'Preview Delphi Unit - ' + SaveUnitForm.sd.FileName;
-
-  //  ShowModal bug - QC129552
-  //  The same is declared in the SaveUnitForm's OnShow event
-  SaveUnitForm.width := MainForm.Width - 50;
-  SaveUnitForm.height := MainForm.Height - 50;
-  SaveUnitForm.left := MainForm.Left + 25;
-  SaveUnitForm.top := MainForm.Top + 25;
 
   SaveUnitForm.ShowModal;
 end;
@@ -163,126 +136,70 @@ begin
   Close;
 end;
 
-procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-begin
-  if FUpdateCheckEvent.WaitFor(0) = wrSignaled then
-    CanClose := true
-  else
-  begin
-    CanClose := false;
-
-    case FApplicationStatus of
-      0:
-        begin
-          TInterlocked.Increment(FApplicationStatus);
-          DisableGuiElements;
-
-          label1.Text := 'Terminating application, please wait...';
-
-          //  We start a termination task.
-          //  This way the main thread will not freeze
-          TTask.Run(
-            procedure
-            begin
-              FUpdateCheckEvent.WaitFor();
-
-              //  Indicate next stage
-              TInterlocked.Increment(FApplicationStatus);
-
-              //  We enqueue the handler
-              TThread.Queue(nil,
-                procedure
-                begin
-                  Close;
-                end
-              );
-            end
-          );
-
-        end;
-      1: ;
-      else
-        CanClose := true;
-    end;
-  end;
-end;
-
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
-  FApplicationStatus := 0;
-  FUpdateCheckEvent := TEvent.Create(nil, true, false, '');
-
+  TAnimation.AniFrameRate := 300;
+  tv.AniCalculations.Animation := True;
+  Memo1.ScrollAnimation := TBehaviorBoolean.True;
+  Memo1.DisableDisappear := True;
+  Memo1.ApplyStyleLookup;
+  FStyledMemo := (Memo1.Presentation as TStyledMemo);
+  FStyledMemo.OnUpdateLayoutParams := UpdateLayout;
+  FCodeSyntax := TCodeSyntax.FindSyntax('json', Memo1.TextSettings.Font, Memo1.FontColor);
   self.Constraints.MinWidth := 1024;
   self.Constraints.MinHeight := 560;
 
-  Caption := 'JsonToDelphiClass - ' + FloatToStr(ProgramVersion, PointDsFormatSettings) + ' | By Petar Georgiev';
+  Caption := 'JsonToDelphiClass - ' + FloatToStr(ProgramVersion, PointDsFormatSettings) + ' | By HemulGM';
 
   jm := TPkgJsonMapper.Create(tv);
-
-  label1.Text := 'Checking for update...';
-
-  NewCheckForUpdateTask(
-    procedure(ARelease: TObject)
-    begin
-      FCheckVersionResponse := ARelease;
-      if FCheckVersionResponse is TReleaseClass then
-      begin
-        label1.StyleLookup := 'LabelLinkStyle';
-        label1.Text := 'Version ' + (FCheckVersionResponse as TReleaseClass).tag_name + ' is available! Click here to download!';
-        (label1.FindStyleResource('text') as TText).OnClick := label1Click;
-        label1.HitTest := true;
-      end
-      else
-        if FCheckVersionResponse is TErrorClass then
-        begin
-          label1.StyleLookup := 'LabelErrorStyle';
-          label1.Text := 'Error checking for new version: ' + (FCheckVersionResponse as TErrorClass).message;
-        end
-        else
-        begin
-          label1.StyleLookup := 'LabelGreenStyle';
-          label1.Text := 'Your version ' + FloatToStr(uUpdate.ProgramVersion, PointDsFormatSettings) + ' is up to date! For more information about JsonToDelphiClass click here!';
-          (label1.FindStyleResource('text') as TText).OnClick := label1Click;
-        end;
-        FUpdateCheckEvent.SetEvent;
-    end
-  );
-
 end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
 begin
-  FreeAndNil(FUpdateCheckEvent);
   FreeAndNil(jm);
   FreeAndNil(FCheckVersionResponse);
 end;
 
-procedure TMainForm.FormKeyDown(Sender: TObject; var Key: Word;
-  var KeyChar: Char; Shift: TShiftState);
+procedure TMainForm.FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
 begin
   if Key = 27 then
-    close;
+    Close;
 end;
 
-procedure TMainForm.Label1Click(Sender: TObject);
+procedure TMainForm.Memo1Change(Sender: TObject);
 begin
-  if FCheckVersionResponse <> nil then
-  begin
-    UpdateForm.FRelease := FCheckVersionResponse as TReleaseClass;
-    UpdateForm.ShowModal;
-  end
-  else
-  begin
-  {$IFDEF MSWINDOWS}
-    ShellExecute(0, 'OPEN', PChar(ProgramUrl), '', '', SW_SHOWNORMAL);
-  {$ENDIF MSWINDOWS}
-  {$IFDEF POSIX}
-    _system(PAnsiChar('open ' + AnsiString(ProgramUrl)));
-  {$ENDIF POSIX}
-  end;
+  FCodeSyntax.DropCache;
+  FStyledMemo.UpdateVisibleLayoutParams;
+  FStyledMemo.Repaint;
 end;
 
-procedure TMainForm.Memo1DblClick(Sender: TObject);
+procedure TMainForm.Memo1ChangeTracking(Sender: TObject);
+begin
+  FCodeSyntax.DropCache;
+  FStyledMemo.UpdateVisibleLayoutParams;
+  FStyledMemo.Repaint;
+end;
+
+procedure TMainForm.MenuItem3Click(Sender: TObject);
+var
+  LString: string;
+  LField: TStubField;
+begin
+  LField := (Sender as TFmxObject).TagObject as TStubField;
+  TDialogService.InputQuery('Rename Property ' + LField.Name, ['Enter new Property name'], [LField.Name],
+    procedure(const AResult: TModalResult; const AValues: array of string)
+    begin
+      LString := AValues[0];
+      if (LString <> '') and (LString.ToLower <> LField.Name.ToLower) then
+      begin
+        FChanged := true;
+        LField.Name := LString;
+        jm.Visualize(tv, '');
+      end;
+    end);
+end;
+
+procedure TMainForm.MenuItem4Click(Sender: TObject);
 var
   LTsl: TStringList;
   LJsonValue: TJSONValue;
@@ -302,53 +219,33 @@ begin
   end;
 end;
 
-procedure TMainForm.MenuItem3Click(Sender: TObject);
-var
-  LString: string;
-  LField: TStubField;
-begin
-  LField := (Sender as TFmxObject).TagObject as TStubField;
-  LString := InputBox('Rename Property ' + LField.Name, 'Enter new Property name', LField.Name);
-  if (LString <> '') AND (LString.ToLower <> LField.Name.ToLower) then
-  begin
-    FChanged := true;
-    LField.Name := LString;
-    jm.Visualize(tv, 'TreeViewItem1Style1');
-  end;
-end;
-
 procedure TMainForm.MenuItem5Click(Sender: TObject);
 var
   LString: string;
   LClass: TStubClass;
 begin
   LClass := (Sender as TFmxObject).TagObject as TStubClass;
-  LString := InputBox('Rename Class ' + LClass.Name, 'Enter new Class name', LClass.PureClassName);
-  if (LString <> '') AND (LString.ToLower <> LClass.PureClassName.ToLower) then
-  begin
-    FChanged := true;
-    LClass.Name := LString;
-    jm.Visualize(tv, 'TreeViewItem1Style1');
-  end;
+  TDialogService.InputQuery('Rename Class ' + LClass.Name, ['Enter new Class name'], [LClass.PureClassName],
+    procedure(const AResult: TModalResult; const AValues: array of string)
+    begin
+      LString := AValues[0];
+      if (LString <> '') and (LString.ToLower <> LClass.PureClassName.ToLower) then
+      begin
+        FChanged := true;
+        LClass.Name := LString;
+        jm.Visualize(tv, '');
+      end;
+    end);
 end;
 
 procedure TMainForm.MenuItem8Click(Sender: TObject);
 begin
   {$IFDEF MSWINDOWS}
-    ShellExecute(0, 'OPEN', PChar(JsonValidatorUrl), '', '', SW_SHOWNORMAL);
+  ShellExecute(0, 'OPEN', PChar(JsonValidatorUrl), '', '', SW_SHOWNORMAL);
   {$ENDIF MSWINDOWS}
   {$IFDEF POSIX}
-    _system(PAnsiChar('open ' + AnsiString(JsonValidatorUrl)));
+  _system(PAnsiChar('open ' + AnsiString(JsonValidatorUrl)));
   {$ENDIF POSIX}
-end;
-
-procedure TMainForm.Panel1Resize(Sender: TObject);
-begin
-  if Panel1.Width < 200 then
-    Panel1.Width := 200
-  else
-    if Panel1.Width > (MainForm.Width - 20) div 2 then
-      Panel1.Width := (MainForm.Width - 20) div 2;
 end;
 
 procedure TMainForm.MainPopupMenuPopup(Sender: TObject);
@@ -358,7 +255,7 @@ var
 begin
   DisableMenuItems;
   MainPopupMenu.Items[0].Text := '---';
-  LPoint :=  tv.AbsoluteToLocal(ScreenToClient(MainPopupMenu.PopupPoint));
+  LPoint := tv.AbsoluteToLocal(ScreenToClient(MainPopupMenu.PopupPoint));
   LItem := tv.ItemByPoint(LPoint.X, LPoint.Y);
   if LItem <> nil then
     LItem.Select;
@@ -381,7 +278,7 @@ begin
       MainPopupMenu.Items[2].Enabled := true;
       MainPopupMenu.Items[2].TagObject := LField;
 
-      if (LField is TStubContainerField) AND ((LField as TStubContainerField).ContainedType = TJsonType.jtObject) then
+      if (LField is TStubContainerField) and ((LField as TStubContainerField).ContainedType = TJsonType.jtObject) then
       begin
         MainPopupMenu.Items[3].Enabled := true;
         MainPopupMenu.Items[3].TagObject := (LField as TStubContainerField).FieldClass;
@@ -401,10 +298,9 @@ begin
     tv.Selected.IsExpanded := not tv.Selected.IsExpanded;
 end;
 
-procedure TMainForm.tvKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
-  Shift: TShiftState);
+procedure TMainForm.tvKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
 begin
-  if ((KeyChar = #0) AND (Key = 113)) AND (tv.Selected <> nil) then
+  if ((KeyChar = #0) and (Key = 113)) and (tv.Selected <> nil) then
   begin
     PrepareMenu;
 
@@ -413,7 +309,23 @@ begin
     else
       MenuItem3Click(MenuItem3);
   end;
+end;
 
+procedure TMainForm.UpdateLayout(Sender: TObject; Layout: TTextLayout; const Index: Integer);
+begin
+  if not Assigned(Layout) then
+    Exit;
+  Layout.BeginUpdate;
+  try
+    Layout.ClearAttributes;
+    Layout.Padding.Top := 1;
+    Layout.Padding.Bottom := 1;
+    if Assigned(FCodeSyntax) then
+      for var Attr in FCodeSyntax.GetAttributesForLine(Memo1.Lines[Index], Index) do
+        Layout.AddAttribute(Attr.Range, Attr.Attribute);
+  finally
+    Layout.EndUpdate;
+  end;
 end;
 
 procedure TMainForm.VisualizeClass;
@@ -421,7 +333,7 @@ begin
   FChanged := false;
 
   jm.Parse(memo1.Text, 'Root');
-  jm.Visualize(tv, 'TreeViewItem1Style1');
+  jm.Visualize(tv, '');
 
   //  Workarround for QC129540
   Panel1.Width := Panel1.Width + 1;
@@ -429,3 +341,4 @@ begin
 end;
 
 end.
+
