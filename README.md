@@ -3,6 +3,9 @@ Delphi-JsonToDelphiClass
 
 Generates Delphi Classes based on JSON string. Just like XML Data Binding, but for JSON.
 
+![screen1](https://github.com/HemulGM/Delphi-JsonToDelphiClass/blob/master/media/2023-11-02%20(14).png?raw=true)
+![screen1](https://github.com/HemulGM/Delphi-JsonToDelphiClass/blob/master/media/2023-11-02%20(15).png?raw=true)
+
 Main features:
 
 - Build entirely on the RTL (no external dependencies) so it's cross-platform;
