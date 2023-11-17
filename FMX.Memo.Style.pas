@@ -237,6 +237,12 @@ type
     procedure SetScrollToCaret(const Value: Boolean);
     procedure UpdateLinesPos;
     procedure SetOnCaretMove(const Value: TNotifyEvent);
+    function GetCanUndo: Boolean;
+    function GetCanCut: Boolean;
+    function GetCanPaste: Boolean;
+    function GetCanDelete: Boolean;
+    function GetCanCopy: Boolean;
+    function GetCanSelectAll: Boolean;
   protected
     FDisableCaretInsideWords: Boolean;
     { Messages from model }
@@ -394,6 +400,12 @@ type
     procedure UpdateVisibleLayoutParams(const Index: Integer); overload;
     property OnCaretMove: TNotifyEvent read FOnCaretMove write SetOnCaretMove;
     property LinesBackgroundColor: TDictionary<Integer, TAlphaColor> read FLinesBackgroundColor;
+    property CanUndo: Boolean read GetCanUndo;
+    property CanCut: Boolean read GetCanCut;
+    property CanPaste: Boolean read GetCanPaste;
+    property CanDelete: Boolean read GetCanDelete;
+    property CanCopy: Boolean read GetCanCopy;
+    property CanSelectAll: Boolean read GetCanSelectAll;
   end;
 
 implementation
@@ -1310,7 +1322,7 @@ begin
       EnsureRange(Y, ContentRect.Top, ContentRect.Bottom) - ContentRect.Top);
     var CaretPos := FLineObjects.GetPointPosition(Point, False);
     //if Select then
-    //  SelectAtPos(CaretPosition);
+      //SelectAtPos(CaretPosition);
     if FindPhraseBound(Model.Lines[CaretPos.Line], CaretPos.Pos, WordBeginIndex, WordEndIndex) and
       InRange(CaretPos.Pos, WordBeginIndex, WordEndIndex + 1) then
     begin
@@ -1383,14 +1395,23 @@ procedure TStyledMemo.DoContentPaint(Sender: TObject; Canvas: TCanvas; const ARe
       var Corners: TCorners := AllCorners;
       var Prev := GetReg(I - 1);
       var Next := GetReg(I + 1);
+      if (I >= 1) and (Prev.Left <= ARegion[I].Left) and (Prev.Left <= ARegion[I].Right) then
+        Exclude(Corners, TCorner.TopLeft);
       if (Prev.Right >= ARegion[I].Right) and (Prev.Left <= ARegion[I].Right) then
         Exclude(Corners, TCorner.TopRight);
       if Next.Right >= ARegion[I].Right then
         Exclude(Corners, TCorner.BottomRight);
       if ((Next.Left <= ARegion[I].Left) and (Next.Width > 0)) and (Next.Right >= ARegion[I].Left) then
-        Exclude(Corners, TCorner.BottomLeft);
-      RectLine.Offset(0, 2);
-      Canvas.FillRect(RectLine, 3, 3, Corners, 1, Model.SelectionFill);
+        Exclude(Corners, TCorner.BottomLeft);  //Model.SelectionFill
+      RectLine.Offset(0, 1);
+
+      var Op := 1.0;
+      if not Memo.IsFocused then
+        Op := 0.4;
+      Canvas.Fillrect(RectLine, 3, 3, Corners, Op, Model.SelectionFill);
+      //Canvas.Stroke.Color := TAlphaColors.Red;
+      //Canvas.Stroke.Kind := TBrushKind.Solid;
+      //Canvas.DrawRect(RectLine, 3, 3, Corners, Op, TCornerType.Round);
     end;
   end;
 
@@ -1467,6 +1488,7 @@ begin
             end;
       end
       else
+      begin
         for I := 0 to FLineObjects.Count - 1 do
           if FLineObjects[I].Layout <> nil then
           begin
@@ -1474,6 +1496,7 @@ begin
               FillLine(FLineObjects[I].Layout, FLinesBackgroundColor.Items[I]);
             FLineObjects[I].Layout.RenderLayout(Canvas);
           end;
+      end;
 
     if Model.CheckSpelling and (FSpellingWords.Count > 0) and (FSpellService <> nil) and (Model.Lines.Count > 0) then
     begin
@@ -1920,7 +1943,7 @@ procedure TStyledMemo.UpdateSelectionPointPositions;
   end;
 
 begin
-  Model.Caret.TemporarilyHidden := FSelected and (Model.SelLength > 0) and IsFocused;
+  Model.Caret.TemporarilyHidden := False; //FSelected and (Model.SelLength > 0) and IsFocused;
   if HaveSelectionPickers then
   begin
     FLeftSelPt.Position.Point := GetLeftSelectionPointPos;
@@ -2736,6 +2759,38 @@ begin
   CaretPosition := GetPositionShift(CaretPosition, Delta);
 end;
 
+function TStyledMemo.GetCanCopy: Boolean;
+begin
+  Result := FSelected;
+end;
+
+function TStyledMemo.GetCanCut: Boolean;
+begin
+  Result := FSelected and not Model.ReadOnly;
+end;
+
+function TStyledMemo.GetCanDelete: Boolean;
+begin
+  Result := FSelected and not Model.ReadOnly;
+end;
+
+function TStyledMemo.GetCanPaste: Boolean;
+begin
+  var ClipService: IFMXExtendedClipboardService;
+  Result := TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, ClipService) and
+    ClipService.HasText and not Model.ReadOnly;
+end;
+
+function TStyledMemo.GetCanSelectAll: Boolean;
+begin
+  Result := Model.SelLength <> Model.Lines.Text.Length;
+end;
+
+function TStyledMemo.GetCanUndo: Boolean;
+begin
+  Result := not Model.ReadOnly and (FActionStack.Count > 0);
+end;
+
 function TStyledMemo.GetLineHeight: Single;
 begin
   if FLineHeight <= 0 then
@@ -2910,9 +2965,11 @@ procedure TStyledMemo.PMSelectText(var Message: TDispatchMessage);
 begin
   FSelStart := Model.TextPosToPos(Model.SelStart);
   FSelEnd := Model.TextPosToPos(Model.SelStart + Model.SelLength);
+
   FSelected := True;
   UpdateSelectionPointPositions;
   RepaintEdit;
+  CaretPosition := FSelEnd;
 end;
 
 procedure TStyledMemo.PutCaretTo(const X, Y: Single; const Select: Boolean; const PositionByWord: Boolean);
@@ -3118,7 +3175,7 @@ procedure TStyledMemo.MoveCaretPageDown;
 var
   ScrollLineNumber: Integer;
 begin
-  ScrollLineNumber := Trunc(GetPageSize);
+  ScrollLineNumber := Min(Trunc(GetPageSize), LineObjects.Count - CaretPosition.Line);
   if ScrollLineNumber < 1 then
     ScrollLineNumber := 1;
   MoveCaretVertical(ScrollLineNumber);
@@ -3128,7 +3185,7 @@ procedure TStyledMemo.MoveCaretPageUp;
 var
   ScrollLineNumber: Integer;
 begin
-  ScrollLineNumber := Trunc(GetPageSize);
+  ScrollLineNumber := Min(Trunc(GetPageSize), CaretPosition.Line);
   if ScrollLineNumber < 1 then
     ScrollLineNumber := 1;
   MoveCaretVertical(-ScrollLineNumber);
@@ -3542,7 +3599,6 @@ begin
   else
     for I := Index to FLines.Count - 1 do
       FLines[I].FreeLayout;
-
 
   if not LineSize.IsZero then
   begin

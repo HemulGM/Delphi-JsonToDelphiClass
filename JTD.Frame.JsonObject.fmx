@@ -1,0 +1,849 @@
+object FrameJsonObject: TFrameJsonObject
+  Size.Width = 1085.000000000000000000
+  Size.Height = 646.000000000000000000
+  Size.PlatformDefault = False
+  object LayoutObjectStruct: TLayout
+    Align = Left
+    ClipChildren = True
+    Padding.Left = 6.000000000000000000
+    Padding.Top = 2.000000000000000000
+    Padding.Right = 6.000000000000000000
+    Padding.Bottom = 6.000000000000000000
+    Size.Width = 374.000000000000000000
+    Size.Height = 646.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 6
+    object TabControlView: TTabControl
+      Align = Client
+      Size.Width = 362.000000000000000000
+      Size.Height = 638.000000000000000000
+      Size.PlatformDefault = False
+      TabHeight = 48.000000000000000000
+      TabIndex = 0
+      TabOrder = 1
+      TabPosition = PlatformDefault
+      Sizes = (
+        362s
+        590s
+        362s
+        590s)
+      object TabItemJOClass: TTabItem
+        CustomIcon = <
+          item
+          end>
+        IsSelected = True
+        Size.Width = 47.000000000000000000
+        Size.Height = 48.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = ''
+        TabOrder = 0
+        Text = 'Class'
+        ExplicitSize.cx = 56.000000000000000000
+        ExplicitSize.cy = 48.000000000000000000
+        object TreeViewJOClass: TTreeView
+          Align = Client
+          Size.Width = 362.000000000000000000
+          Size.Height = 590.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          OnDblClick = TreeViewJOClassDblClick
+          OnMouseUp = TreeViewJOClassMouseUp
+          ItemHeight = 30.000000000000000000
+          Viewport.Width = 358.000000000000000000
+          Viewport.Height = 586.000000000000000000
+          object TreeViewItem1: TTreeViewItem
+            Enabled = False
+            IsChecked = False
+            IsExpanded = True
+            IsSelected = False
+            StyleLookup = 'treeviewItemstyle_dummy'
+            TabOrder = 0
+            Text = 'TreeViewItem1'
+            object TreeViewItem2: TTreeViewItem
+              Enabled = False
+              IsChecked = False
+              IsExpanded = False
+              IsSelected = False
+              StyleLookup = 'treeviewItemstyle_dummy'
+              TabOrder = 0
+              Text = 'TreeViewItem2'
+            end
+            object TreeViewItem3: TTreeViewItem
+              Enabled = False
+              IsChecked = False
+              IsExpanded = True
+              IsSelected = False
+              StyleLookup = 'treeviewItemstyle_dummy'
+              TabOrder = 1
+              Text = 'TreeViewItem3'
+              object TreeViewItem4: TTreeViewItem
+                Enabled = False
+                IsChecked = False
+                IsExpanded = False
+                IsSelected = False
+                StyleLookup = 'treeviewItemstyle_dummy'
+                TabOrder = 0
+                Text = 'TreeViewItem4'
+              end
+              object TreeViewItem5: TTreeViewItem
+                Enabled = False
+                IsChecked = False
+                IsExpanded = False
+                IsSelected = False
+                StyleLookup = 'treeviewItemstyle_dummy'
+                TabOrder = 1
+                Text = 'TreeViewItem5'
+              end
+            end
+          end
+        end
+      end
+      object TabItemJOClasses: TTabItem
+        CustomIcon = <
+          item
+          end>
+        IsSelected = False
+        Size.Width = 58.000000000000000000
+        Size.Height = 48.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = ''
+        TabOrder = 0
+        Text = 'Classes'
+        ExplicitSize.cx = 71.000000000000000000
+        ExplicitSize.cy = 48.000000000000000000
+        object TreeViewClasses: TTreeView
+          Align = Client
+          Size.Width = 362.000000000000000000
+          Size.Height = 590.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          OnDblClick = TreeViewClassesDblClick
+          OnMouseUp = TreeViewClassesMouseUp
+          ItemHeight = 30.000000000000000000
+          Viewport.Width = 358.000000000000000000
+          Viewport.Height = 586.000000000000000000
+          object TreeViewItem6: TTreeViewItem
+            Enabled = False
+            IsChecked = False
+            IsExpanded = True
+            IsSelected = False
+            StyleLookup = 'treeviewItemstyle_dummy'
+            TabOrder = 0
+            Text = 'TreeViewItem1'
+            object TreeViewItem7: TTreeViewItem
+              Enabled = False
+              IsChecked = False
+              IsExpanded = False
+              IsSelected = False
+              StyleLookup = 'treeviewItemstyle_dummy'
+              TabOrder = 0
+              Text = 'TreeViewItem2'
+            end
+            object TreeViewItem8: TTreeViewItem
+              Enabled = False
+              IsChecked = False
+              IsExpanded = True
+              IsSelected = False
+              StyleLookup = 'treeviewItemstyle_dummy'
+              TabOrder = 1
+              Text = 'TreeViewItem3'
+              object TreeViewItem9: TTreeViewItem
+                Enabled = False
+                IsChecked = False
+                IsExpanded = False
+                IsSelected = False
+                StyleLookup = 'treeviewItemstyle_dummy'
+                TabOrder = 0
+                Text = 'TreeViewItem4'
+              end
+              object TreeViewItem10: TTreeViewItem
+                Enabled = False
+                IsChecked = False
+                IsExpanded = False
+                IsSelected = False
+                StyleLookup = 'treeviewItemstyle_dummy'
+                TabOrder = 1
+                Text = 'TreeViewItem5'
+              end
+            end
+          end
+        end
+      end
+    end
+    object ButtonJOParseTree: TButton
+      Align = Center
+      Margins.Bottom = 8.000000000000000000
+      Size.Width = 194.000000000000000000
+      Size.Height = 40.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'buttonstyle_outlined'
+      TabOrder = 0
+      Text = 'Parse'
+      OnClick = ButtonJOParseClick
+    end
+  end
+  object PanelControls: TPanel
+    Align = Right
+    Padding.Left = 6.000000000000000000
+    Padding.Top = 6.000000000000000000
+    Padding.Right = 6.000000000000000000
+    Padding.Bottom = 6.000000000000000000
+    Margins.Top = 8.000000000000000000
+    Margins.Right = 8.000000000000000000
+    Margins.Bottom = 8.000000000000000000
+    Position.X = 837.000000000000000000
+    Position.Y = 8.000000000000000000
+    Size.Width = 240.000000000000000000
+    Size.Height = 630.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object ButtonJOParse: TButton
+      Align = Top
+      Margins.Bottom = 8.000000000000000000
+      Position.X = 6.000000000000000000
+      Position.Y = 321.000000000000000000
+      Size.Width = 228.000000000000000000
+      Size.Height = 40.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Text = 'Parse'
+      OnClick = ButtonJOParseClick
+    end
+    object ButtonJOOnlineJsonValidator: TButton
+      Align = Top
+      Margins.Bottom = 8.000000000000000000
+      Position.X = 6.000000000000000000
+      Position.Y = 417.000000000000000000
+      Size.Width = 228.000000000000000000
+      Size.Height = 40.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'buttonstyle_outlined'
+      TabOrder = 2
+      Text = 'Online JSON Validator'
+      OnClick = ButtonJOOnlineJsonValidatorClick
+    end
+    object Layout1: TLayout
+      Align = Top
+      Position.X = 6.000000000000000000
+      Position.Y = 6.000000000000000000
+      Size.Width = 228.000000000000000000
+      Size.Height = 315.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 4
+      object EditUnitName: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 4
+        Text = 'RootUnit'
+        Position.X = 8.000000000000000000
+        Position.Y = 33.000000000000000000
+        Size.Width = 212.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'RootUnit'
+      end
+      object Label5: TLabel
+        Position.X = 8.000000000000000000
+        Position.Y = 8.000000000000000000
+        Size.Width = 182.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Destination Unit Name:'
+        TabOrder = 12
+      end
+      object CheckBoxMerge: TCheckBox
+        Position.X = 8.000000000000000000
+        Position.Y = 134.000000000000000000
+        Size.Width = 212.000000000000000000
+        Size.Height = 19.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 17
+        Text = 'Merge same classes (beta)'
+      end
+      object EditRootName: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 3
+        Text = 'Root'
+        Position.X = 8.000000000000000000
+        Position.Y = 96.000000000000000000
+        Size.Width = 212.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'Root'
+      end
+      object Label2: TLabel
+        Position.X = 8.000000000000000000
+        Position.Y = 71.000000000000000000
+        Size.Width = 182.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Root name'
+        TabOrder = 11
+      end
+      object CheckBoxSort: TCheckBox
+        Position.X = 8.000000000000000000
+        Position.Y = 161.000000000000000000
+        Size.Width = 212.000000000000000000
+        Size.Height = 19.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 16
+        Text = 'Sort fields'
+      end
+      object CheckBoxNumericDuplicate: TCheckBox
+        IsChecked = True
+        Position.X = 8.000000000000000000
+        Position.Y = 188.000000000000000000
+        Size.Width = 212.000000000000000000
+        Size.Height = 19.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 15
+        Text = 'Number duplicate classes'
+      end
+      object CheckBoxForwardDeclarate: TCheckBox
+        Position.X = 8.000000000000000000
+        Position.Y = 215.000000000000000000
+        Size.Width = 212.000000000000000000
+        Size.Height = 19.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 14
+        Text = 'Forward Declarations'
+      end
+      object Label7: TLabel
+        Position.X = 8.000000000000000000
+        Position.Y = 242.000000000000000000
+        Size.Width = 182.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Set base classes name'
+        TabOrder = 10
+      end
+      object EditBaseClassName: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 2
+        Position.X = 128.000000000000000000
+        Position.Y = 267.000000000000000000
+        Size.Width = 92.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'TObject'
+      end
+      object EditBaseClassUnit: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 1
+        Position.X = 8.000000000000000000
+        Position.Y = 267.000000000000000000
+        Size.Width = 112.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'Unit'
+      end
+    end
+    object AniIndicatorWork: TAniIndicator
+      Align = Bottom
+      StyleLookup = 'aniindicatorstyle_circular'
+      Position.X = 96.000000000000000000
+      Position.Y = 643.000000000000000000
+      Size.Width = 48.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      Visible = False
+    end
+    object ButtonJOPasteAndParse: TButton
+      Align = Top
+      Margins.Bottom = 8.000000000000000000
+      Position.X = 6.000000000000000000
+      Position.Y = 369.000000000000000000
+      Size.Width = 228.000000000000000000
+      Size.Height = 40.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'Paste and Parse'
+      OnClick = ButtonJOPasteAndParseClick
+    end
+    object ButtonTest: TButton
+      Align = Bottom
+      Position.X = 6.000000000000000000
+      Position.Y = 584.000000000000000000
+      Size.Width = 228.000000000000000000
+      Size.Height = 40.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 6
+      Text = 'Test'
+    end
+  end
+  object Splitter1: TSplitter
+    Align = Left
+    Cursor = crHSplit
+    MinSize = 20.000000000000000000
+    Position.X = 374.000000000000000000
+    Size.Width = 4.000000000000000000
+    Size.Height = 646.000000000000000000
+    Size.PlatformDefault = False
+  end
+  object TabControlJOMain: TTabControl
+    Align = Client
+    ClipChildren = True
+    Margins.Left = 8.000000000000000000
+    Margins.Right = 8.000000000000000000
+    Size.Width = 443.000000000000000000
+    Size.Height = 646.000000000000000000
+    Size.PlatformDefault = False
+    TabHeight = 48.000000000000000000
+    TabIndex = 0
+    TabOrder = 1
+    TabPosition = PlatformDefault
+    Sizes = (
+      443s
+      598s
+      443s
+      598s)
+    object TabItemJOSource: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = True
+      Size.Width = 89.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = 'Source JSON'
+      ExplicitSize.cx = 104.000000000000000000
+      ExplicitSize.cy = 48.000000000000000000
+      object MemoJOSource: TMemo
+        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+        Caret.Width = 2
+        DataDetectorTypes = []
+        HideSelectionOnExit = False
+        Lines.Strings = (
+          '[{'
+          '    "id": "asst_abc123",'
+          '    "object": "assistant",'
+          '    "created_at": 1698984975,'
+          '    "name": "Math Tutor",'
+          '    "description": null,'
+          '    "model": "gpt-4",'
+          
+            '    "instructions": "You are a personal math tutor. When asked a' +
+            ' question, write and run Python code to answer the question.",'
+          '    "tools": ['
+          '        {'
+          '            "type": "code_interpreter"'
+          '        }'
+          '    ],'
+          '    "file_ids": ['
+          '    ],'
+          '    "metadata": {'
+          '    }'
+          '},'
+          '{'
+          '    "id": "asst_abc123",'
+          '    "object": "assistant",'
+          '    "created_at": 1698984975,'
+          '    "name": "Math Tutor",'
+          '    "description": {},'
+          '    "model": "gpt-4",'
+          
+            '    "instructions": "You are a personal math tutor. When asked a' +
+            ' question, write and run Python code to answer the question.",'
+          '    "tools": ['
+          '        {'
+          '            "type": "code_interpreter"'
+          '        }'
+          '    ],'
+          '    "file_ids": ['
+          '    ],'
+          '    "metadata": {'
+          '    }'
+          '}]')
+        StyledSettings = [Style, FontColor]
+        TextSettings.Font.Family = 'Consolas'
+        TextSettings.Font.Size = 16.000000000000000000
+        OnChange = MemoJOSourceChange
+        OnChangeTracking = MemoJOSourceChangeTracking
+        Align = Client
+        ClipChildren = True
+        PopupMenu = MemoPopupMenu
+        Size.Width = 443.000000000000000000
+        Size.Height = 543.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        OnPaint = MemoJOSourcePaint
+        Viewport.Width = 443.000000000000000000
+        Viewport.Height = 543.000000000000000000
+      end
+      object Label4: TLabel
+        Align = Top
+        Size.Width = 443.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Paste JSON String here:'
+        TabOrder = 1
+      end
+      object Layout2: TLayout
+        Align = Client
+        Size.Width = 443.000000000000000000
+        Size.Height = 543.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        object Layout3: TLayout
+          Align = Top
+          Margins.Left = 14.000000000000000000
+          Margins.Top = 14.000000000000000000
+          Margins.Right = 14.000000000000000000
+          Margins.Bottom = 14.000000000000000000
+          Position.X = 14.000000000000000000
+          Position.Y = 14.000000000000000000
+          Size.Width = 415.000000000000000000
+          Size.Height = 32.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          object ButtonPaste: TButton
+            Align = Right
+            Hint = 'Paste'
+            Images = FormMain.ImageList
+            ImageIndex = 0
+            Margins.Left = 4.000000000000000000
+            Position.X = 383.000000000000000000
+            Size.Width = 32.000000000000000000
+            Size.Height = 32.000000000000000000
+            Size.PlatformDefault = False
+            StyleLookup = 'buttonstyle_elevated_icon'
+            TabOrder = 0
+            Text = 'ButtonPaste'
+            OnClick = ButtonPasteClick
+          end
+          object ButtonCopyJSON: TButton
+            Align = Right
+            Hint = 'Copy'
+            Images = FormMain.ImageList
+            ImageIndex = 1
+            Margins.Left = 4.000000000000000000
+            Position.X = 347.000000000000000000
+            Size.Width = 32.000000000000000000
+            Size.Height = 32.000000000000000000
+            Size.PlatformDefault = False
+            StyleLookup = 'buttonstyle_elevated_icon'
+            TabOrder = 1
+            Text = 'ButtonCopy'
+            OnClick = ButtonCopyJSONClick
+          end
+        end
+      end
+      object Layout6: TLayout
+        Align = Bottom
+        Padding.Left = 8.000000000000000000
+        Position.Y = 573.000000000000000000
+        Size.Width = 443.000000000000000000
+        Size.Height = 25.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 4
+        object LabelMemoSourcePos: TLabel
+          Align = Left
+          Position.X = 8.000000000000000000
+          Size.Width = 120.000000000000000000
+          Size.Height = 25.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.HorzAlign = Trailing
+          Text = '640:  13'
+          TabOrder = 2
+        end
+        object LabelMemoSourceSyn: TLabel
+          Align = Left
+          Position.X = 128.000000000000000000
+          Size.Width = 100.000000000000000000
+          Size.Height = 25.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.HorzAlign = Trailing
+          Text = 'JavaScript'
+          TabOrder = 1
+        end
+        object LabelMemoSourceCP: TLabel
+          Align = Left
+          Position.X = 228.000000000000000000
+          Size.Width = 73.000000000000000000
+          Size.Height = 25.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.HorzAlign = Trailing
+          Text = 'UTF8'
+          TabOrder = 0
+        end
+      end
+    end
+    object TabItemJOUnit: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = False
+      Size.Width = 87.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = 'Preview Unit'
+      ExplicitSize.cx = 100.000000000000000000
+      ExplicitSize.cy = 48.000000000000000000
+      object MemoJOUnit: TMemo
+        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+        DataDetectorTypes = []
+        HideSelectionOnExit = False
+        ReadOnly = True
+        StyledSettings = [Style]
+        TextSettings.Font.Family = 'Consolas'
+        TextSettings.Font.Size = 14.000000000000000000
+        TextSettings.FontColor = xFFE8E8E8
+        OnChange = MemoJOUnitChange
+        OnChangeTracking = MemoJOUnitChangeTracking
+        Align = Client
+        ClipChildren = True
+        Size.Width = 443.000000000000000000
+        Size.Height = 543.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = 'memostyle_unit'
+        TabOrder = 1
+        OnPaint = MemoJOUnitPaint
+        Viewport.Width = 443.000000000000000000
+        Viewport.Height = 543.000000000000000000
+      end
+      object Label1: TLabel
+        Align = Top
+        Size.Width = 443.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'This unit is generated:'
+        TabOrder = 3
+      end
+      object Layout4: TLayout
+        Align = Client
+        Size.Width = 443.000000000000000000
+        Size.Height = 543.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        object LayoutUnitActions: TLayout
+          Align = Top
+          Enabled = False
+          Margins.Left = 14.000000000000000000
+          Margins.Top = 14.000000000000000000
+          Margins.Right = 14.000000000000000000
+          Margins.Bottom = 14.000000000000000000
+          Position.X = 14.000000000000000000
+          Position.Y = 14.000000000000000000
+          Size.Width = 415.000000000000000000
+          Size.Height = 32.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          object ButtonCopy: TButton
+            Align = Right
+            Hint = 'Copy'
+            Images = FormMain.ImageList
+            ImageIndex = 1
+            Margins.Left = 4.000000000000000000
+            Position.X = 347.000000000000000000
+            Size.Width = 32.000000000000000000
+            Size.Height = 32.000000000000000000
+            Size.PlatformDefault = False
+            StyleLookup = 'buttonstyle_elevated_icon'
+            TabOrder = 1
+            Text = 'ButtonCopy'
+            OnClick = ButtonCopyClick
+          end
+          object ButtonSaveUnit: TButton
+            Align = Right
+            Hint = 'Save as ...'
+            Images = FormMain.ImageList
+            ImageIndex = 2
+            Margins.Left = 4.000000000000000000
+            Position.X = 383.000000000000000000
+            Size.Width = 32.000000000000000000
+            Size.Height = 32.000000000000000000
+            Size.PlatformDefault = False
+            StyleLookup = 'buttonstyle_elevated_icon'
+            TabOrder = 0
+            OnClick = ButtonSaveUnitClick
+          end
+        end
+        object PathHintParse: TPath
+          Anchors = [akTop, akRight]
+          Data.Path = {
+            6C00000000000000E5D04D4272B9744202000000B8801A427F9B934202000000
+            CA54CE41FDD6AC42020000001D384F410E0FC64202000000492E26417513CB42
+            0200000013B8F4400CC2CF4202000000AEF09B406250D4420200000042218D40
+            D90ED54202000000C02176400C82D54202000000323850401D9AD54202000000
+            CF4E2A40AAB1D54202000000075F0440146ED5420200000090BDC63F87D6D442
+            020000002D0B323F39F4D34202000000F697FD3E02ABD0420200000017BC9C3F
+            02ABCE4202000000A7CBF63F6ABCCC4202000000209823407FAACA4202000000
+            712056404EE2C84202000000F62306412083BD4202000000AC8B54415DDEB142
+            020000009E6F944127F1A642020000006F12EB41C57E904202000000B0722142
+            51AB744202000000F8824D421984484202000000B15077427E9D1E4202000000
+            6CD89042B595EA41020000006FD2A5428A0E9741020000006230A942E9A68941
+            020000007D1FAC428104754102000000CC2EAF42E3C7574102000000C159AF42
+            C58F5541020000002072AF42A60A534102000000C375AF428273504102000000
+            6579AF425DDC4D41020000003168AF4217484B4102000000A343AF421FF44841
+            0200000056CEAE42545244410200000086C9AD42158C3E4102000000BE3FAD42
+            4ED13F41020000003A52A342304C574102000000E14B99428AB06C4102000000
+            1B8F8F421A51844102000000BCD67142F2D2A44102000000912D43428BECBA41
+            02000000787A144216EAD04102000000EDCD0C428885D44102000000EEDA0442
+            BF7DD84102000000C139FA41CEAAD041020000004469F741773ECF4102000000
+            61B2F241CAB2CC41020000000DE0F241021ACB4102000000F016F341EEFCC441
+            0200000014D0F441BC05BF4102000000F7E4F741D3BCB94102000000BDD2FB41
+            89C1B441020000009487004260F6B04102000000278203427AC7AE4102000000
+            16FB0D4238E7A64102000000238A184266669F4102000000E3362342F5B99841
+            02000000D97D6F424CA6514102000000C7EB9D42ED9EE54002000000DB0AC442
+            97C5943F02000000086CD242B1A78DBF020000009EAFDB42C23078BF02000000
+            6025DB42D0D5214102000000F4FDDA4213F25441020000004ACCDA42302A8441
+            020000001904DA42227D9D41020000005463D642937A09420200000042A0D242
+            5D2D444202000000DBB9CE42F0D67E42020000007B14CE42CF57834202000000
+            C520CD42B53587420200000048E1CB420FFC8A42020000004821CB4247838D42
+            02000000C9F6C842E69F8E4202000000997BC642FCF88E42020000009DC0C342
+            165B8F42020000002E5FBF42B4E88C42020000008D68BE42D3DE8A4202000000
+            D044BC427958864202000000F232BC428186814202000000AD89BC42B6847942
+            020000000AD7BD42D7D2544202000000BF4EBF421E273042020000001DC9C042
+            B97C0B4202000000CCBFC1425B31E74102000000C6DCC242507CB74102000000
+            14CEC342E3B6874102000000CED9C3421D5A8541020000006704C342ADE98141
+            020000006E63C24210698041020000008115C2421AC07F410200000069C0C142
+            52497F4102000000856BC14203787F41020000009416C1421EA77F4102000000
+            5AC4C042083D804102000000DA7BC0429EEF8041020000001FE5BC42A0898D41
+            020000008B3DB9425AE499410200000047E3B542AA71A74102000000F9719B42
+            652A094202000000C709814214AE3E420200000032554D42CA43744201000000
+            E5D04D4272B9744203000000E5D04D4272B97442}
+          Fill.Color = xFFECECEC
+          Position.X = 265.000000000000000000
+          Position.Y = 187.000000000000000000
+          Size.Width = 153.000000000000000000
+          Size.Height = 262.000000000000000000
+          Size.PlatformDefault = False
+          Stroke.Kind = None
+          Stroke.Thickness = 4.000000000000000000
+          WrapMode = Fit
+          object Label6: TLabel
+            StyledSettings = [Style]
+            Position.X = -120.000000000000000000
+            Position.Y = 216.000000000000000000
+            Size.Width = 184.000000000000000000
+            Size.Height = 25.000000000000000000
+            Size.PlatformDefault = False
+            TextSettings.Font.Family = 'Segoe Print'
+            TextSettings.Font.Size = 26.000000000000000000
+            TextSettings.FontColor = claWhite
+            TextSettings.WordWrap = False
+            Text = 'Press "Parse"'
+            TabOrder = 0
+          end
+        end
+      end
+      object Layout5: TLayout
+        Align = Bottom
+        Padding.Left = 8.000000000000000000
+        Position.Y = 573.000000000000000000
+        Size.Width = 443.000000000000000000
+        Size.Height = 25.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 4
+        object LabelMemoUnitPos: TLabel
+          Align = Left
+          Position.X = 8.000000000000000000
+          Size.Width = 120.000000000000000000
+          Size.Height = 25.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.HorzAlign = Trailing
+          Text = '640:  13'
+          TabOrder = 2
+        end
+        object LabelMemoUnitSyn: TLabel
+          Align = Left
+          Position.X = 128.000000000000000000
+          Size.Width = 100.000000000000000000
+          Size.Height = 25.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.HorzAlign = Trailing
+          Text = 'Delphi'
+          TabOrder = 1
+        end
+        object LabelMemoUnitCP: TLabel
+          Align = Left
+          Position.X = 228.000000000000000000
+          Size.Width = 73.000000000000000000
+          Size.Height = 25.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.HorzAlign = Trailing
+          Text = 'UTF8'
+          TabOrder = 0
+        end
+      end
+    end
+  end
+  object MemoPopupMenu: TPopupMenu
+    OnPopup = MemoPopupMenuPopup
+    Left = 208
+    Top = 584
+    object MenuItemJSONUndo: TMenuItem
+      Text = 'Undo'
+      OnClick = MenuItemJSONUndoClick
+    end
+    object MenuItem1: TMenuItem
+      Text = '-'
+    end
+    object MenuItemJSONCut: TMenuItem
+      Text = 'Cut'
+      OnClick = MenuItemJSONCutClick
+    end
+    object MenuItemJSONCopy: TMenuItem
+      Text = 'Copy'
+      OnClick = MenuItemJSONCopyClick
+    end
+    object MenuItemJSONPaste: TMenuItem
+      Text = 'Paste'
+      OnClick = MenuItemJSONPasteClick
+    end
+    object MenuItemJSONDelete: TMenuItem
+      Text = 'Delete'
+      OnClick = MenuItemJSONDeleteClick
+    end
+    object MenuItem3: TMenuItem
+      Text = '-'
+    end
+    object MenuItemJSONSelectAll: TMenuItem
+      Text = 'Select All'
+      OnClick = MenuItemJSONSelectAllClick
+    end
+    object MenuItem4: TMenuItem
+      Text = '-'
+    end
+    object MenuItemJSONFormat: TMenuItem
+      Text = 'Format'
+      OnClick = MenuItemJSONFormatClick
+    end
+    object MenuItemValidateJSON: TMenuItem
+      Text = 'Online Validate'
+      OnClick = MenuItemValidateJSONClick
+    end
+  end
+  object MainPopupMenu: TPopupMenu
+    Left = 208
+    Top = 528
+    object MenuItemFieldCaption: TMenuItem
+      Enabled = False
+      Text = 'MenuItemFieldCaption'
+    end
+    object MenuItem2: TMenuItem
+      Text = '-'
+    end
+    object MenuItemRenameProp: TMenuItem
+      Text = 'Rename Property'
+      OnClick = MenuItemRenamePropClick
+    end
+    object MenuItemChangeClassName: TMenuItem
+      Text = 'Change Class Name'
+      OnClick = MenuItemChangeClassNameClick
+    end
+    object MenuItemChangeType: TMenuItem
+      Text = 'Change Type'
+      OnClick = MenuItemChangeTypeClick
+    end
+  end
+  object SaveDialogUnit: TSaveDialog
+    DefaultExt = '.pas'
+    Filter = 'Delphi unit (*.pas)|*.pas'
+    Left = 120
+    Top = 472
+  end
+end

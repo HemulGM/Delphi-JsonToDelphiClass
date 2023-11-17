@@ -250,29 +250,34 @@
         <DCC_Define>madExcept;$(DCC_Define)</DCC_Define>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_LocalDebugSymbols>true</DCC_LocalDebugSymbols>
+        <BT_BuildType>Debug</BT_BuildType>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <BT_BuildType>Debug</BT_BuildType>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="uMainForm.pas">
-            <Form>MainForm</Form>
+        <DCCReference Include="JTD.Main.pas">
+            <Form>FormMain</Form>
             <FormType>fmx</FormType>
         </DCCReference>
-        <DCCReference Include="Pkg.Json.Mapper.pas"/>
-        <DCCReference Include="FMX.ConstrainedForm.pas">
-            <Form>/  IdSSLOpenSSLHeaders,</Form>
-        </DCCReference>
+        <DCCReference Include="Json.Mapper.pas"/>
         <DCCReference Include="ChatGPT.Code.pas"/>
         <DCCReference Include="ChatGPT.Code.JSON.pas"/>
         <DCCReference Include="FMX.Memo.Style.pas"/>
         <DCCReference Include="ChatGPT.Code.Pascal.pas"/>
         <DCCReference Include="HGM.MaterialDesignStyle.pas"/>
-        <DCCReference Include="..\..\AsyncObjectHolder\HGM.ObjectHolder.pas"/>
+        <DCCReference Include="AsyncObjectHolder\HGM.ObjectHolder.pas"/>
+        <DCCReference Include="Json.Schema.pas"/>
+        <DCCReference Include="JTD.Frame.JsonObject.pas">
+            <Form>FrameJsonObject</Form>
+            <FormType>fmx</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -323,6 +328,12 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="Win32\Release\JsonToDelphiClass.exe" Configuration="Release" Class="ProjectOutput"/>
+                <DeployFile LocalName="Win32\Release\JsonToDelphiClass.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>JsonToDelphiClass.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="iOSSimulator">
                         <Operation>1</Operation>
