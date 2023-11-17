@@ -12238,7 +12238,7 @@ object FormMain: TFormMain
                 Size.PlatformDefault = False
                 TextSettings.FontColor = xFF7D7D7D
                 Text = 'Generate class from json schema'
-                TabOrder = 37
+                TabOrder = 36
               end
             end
           end
@@ -12264,7 +12264,6 @@ object FormMain: TFormMain
           Size.PlatformDefault = False
           inherited LayoutObjectStruct: TLayout
             Size.Height = 613.000000000000000000
-            TabOrder = 5
             inherited TabControlView: TTabControl
               Size.Height = 605.000000000000000000
               Sizes = (
@@ -12299,7 +12298,6 @@ object FormMain: TFormMain
             Size.Height = 597.000000000000000000
             inherited ButtonTest: TButton
               Position.Y = 551.000000000000000000
-              OnClick = nil
             end
           end
           inherited Splitter1: TSplitter
@@ -12321,25 +12319,31 @@ object FormMain: TFormMain
               ExplicitSize.cy = 48.000000000000000000
               inherited MemoJOSource: TMemo
                 Size.Width = 460.000000000000000000
-                Size.Height = 535.000000000000000000
+                Size.Height = 510.000000000000000000
                 Viewport.Width = 460.000000000000000000
-                Viewport.Height = 535.000000000000000000
+                Viewport.Height = 510.000000000000000000
               end
               inherited Label4: TLabel
                 Size.Width = 460.000000000000000000
               end
               inherited Layout2: TLayout
                 Size.Width = 460.000000000000000000
-                Size.Height = 535.000000000000000000
+                Size.Height = 510.000000000000000000
                 inherited Layout3: TLayout
                   Size.Width = 432.000000000000000000
                   inherited ButtonPaste: TButton
+                    Images = nil
                     Position.X = 400.000000000000000000
                   end
                   inherited ButtonCopyJSON: TButton
+                    Images = nil
                     Position.X = 364.000000000000000000
                   end
                 end
+              end
+              inherited Layout6: TLayout
+                Position.Y = 540.000000000000000000
+                Size.Width = 460.000000000000000000
               end
             end
             inherited TabItemJOUnit: TTabItem
@@ -12362,9 +12366,11 @@ object FormMain: TFormMain
                 inherited LayoutUnitActions: TLayout
                   Size.Width = 432.000000000000000000
                   inherited ButtonCopy: TButton
+                    Images = nil
                     Position.X = 364.000000000000000000
                   end
                   inherited ButtonSaveUnit: TButton
+                    Images = nil
                     Position.X = 400.000000000000000000
                   end
                 end
@@ -12519,7 +12525,6 @@ object FormMain: TFormMain
       item
         MultiResBitmap = <
           item
-            Size = 16
           end>
         IconName = 'Item 0'
         SVGText = 
@@ -12537,7 +12542,6 @@ object FormMain: TFormMain
       item
         MultiResBitmap = <
           item
-            Size = 16
           end>
         IconName = 'Item 1'
         SVGText = 
@@ -12553,7 +12557,6 @@ object FormMain: TFormMain
       item
         MultiResBitmap = <
           item
-            Size = 16
           end>
         IconName = 'Item 2'
         SVGText = 
@@ -12567,7 +12570,7 @@ object FormMain: TFormMain
       item
         MultiResBitmap = <
           item
-            Size = 16
+            Size = 18
           end>
         IconName = 'Item 3'
         SVGText = 
@@ -12589,32 +12592,32 @@ object FormMain: TFormMain
         Layers = <
           item
             Name = 'Item 0'
+            SourceRect.Right = 32.000000000000000000
+            SourceRect.Bottom = 32.000000000000000000
           end>
       end
       item
         Layers = <
           item
             Name = 'Item 1'
+            SourceRect.Right = 32.000000000000000000
+            SourceRect.Bottom = 32.000000000000000000
           end>
       end
       item
         Layers = <
           item
             Name = 'Item 2'
-          end>
-      end
-      item
-        Layers = <
-          item
-            Name = 'Item 3'
-          end>
-      end
-      item
-        Layers = <
-          item
-            Name = 'Item 3'
             SourceRect.Right = 32.000000000000000000
             SourceRect.Bottom = 32.000000000000000000
+          end>
+      end
+      item
+        Layers = <
+          item
+            Name = 'Item 3'
+            SourceRect.Right = 18.000000000000000000
+            SourceRect.Bottom = 18.000000000000000000
           end>
       end>
     Left = 120

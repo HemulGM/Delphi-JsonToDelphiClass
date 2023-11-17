@@ -1098,8 +1098,13 @@ end;
 
 procedure TStyledMemo.PMFragmentInserted(var Message: TDispatchMessageWithValue<TFragmentInserted>);
 begin
+  {$IF CompilerVersion >= 36}
+  FActionStack.FragmentInserted(Message.Value.StartPos, Message.Value.Fragment.Length, Message.Value.PairedWithPrev,
+    Message.Value.Typed);
+  {$ELSE}
   FActionStack.FragmentInserted(Message.Value.StartPos, Message.Value.FragmentLength, Message.Value.PairedWithPrev,
     Message.Value.Typed);
+  {$ENDIF}
 end;
 
 procedure TStyledMemo.MMGetCaretPosition(var Message: TDispatchMessageWithValue<TCaretPosition>);
