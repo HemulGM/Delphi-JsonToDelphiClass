@@ -3,6 +3,9 @@ Delphi-JsonToDelphiClass
 
 Generates Delphi Classes based on JSON string. Just like XML Data Binding, but for JSON.
 
+![screen1](https://github.com/HemulGM/Delphi-JsonToDelphiClass/blob/master/media/2023-11-02%20(14).png?raw=true)
+![screen1](https://github.com/HemulGM/Delphi-JsonToDelphiClass/blob/master/media/2023-11-02%20(15).png?raw=true)
+
 Main features:
 
 - Build entirely on the RTL (no external dependencies) so it's cross-platform;
@@ -22,16 +25,18 @@ Main features:
 - Allows you to change the names of the stub classes;
 - Supports JSON pretty print to format the input string;
 - Simple and responsive GUI;
-- *** Automatic check for update, based on ITask (Parallel Programming Library)!
 - It's open source! You can find the source code and binary releases on GitHub.
-- The program uses MadExcept to report unhanded exceptions;
 
 * If the JSON array is empty the contained type is unknown. Unit generation works only with known and supported types.
 
-** This is because serialization of TList<T> adds "noise" i.e. includes internal properties that did not exist in the original JSON string.
-
-*** The releases of JsonToDelphiClass (source and binaries) are public and reside on GitHub. The update unit uses GitHub's REST API to enumerate tags/releases.
+*** The releases of JsonToDelphiClass (source and binaries) are public and reside on GitHub.
 
 Report any problems/suggestions using GitHub's facilities.
 
-You can find more information here: http://www.pgeorgiev.com/?p=1832
+<hr>
+<p align="center">
+<img src="https://dtffvb2501i0o.cloudfront.net/images/logos/delphi-logo-128.webp" alt="Delphi">
+</p>
+<h5 align="center">
+Made with :heart: on Delphi
+</h5>
