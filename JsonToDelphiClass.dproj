@@ -233,6 +233,7 @@
         <DCC_DebugInformation>1</DCC_DebugInformation>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
         <BT_BuildType>Debug</BT_BuildType>
+        <Icon_MainIcon>JsonToDelphiClass_Icon.ico</Icon_MainIcon>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <BT_BuildType>Debug</BT_BuildType>
@@ -265,7 +266,6 @@
         </DelphiCompile>
         <DCCReference Include="JTD.Main.pas">
             <Form>FormMain</Form>
-            <FormType>fmx</FormType>
         </DCCReference>
         <DCCReference Include="Json.Mapper.pas"/>
         <DCCReference Include="ChatGPT.Code.pas"/>
@@ -277,7 +277,11 @@
         <DCCReference Include="Json.Schema.pas"/>
         <DCCReference Include="JTD.Frame.JsonObject.pas">
             <Form>FrameJsonObject</Form>
-            <FormType>fmx</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="JTD.Utils.pas"/>
+        <DCCReference Include="JTD.Frame.JsonSchema.pas">
+            <Form>FrameJsonSchema</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <BuildConfiguration Include="Base">
@@ -301,6 +305,8 @@
                     <Source Name="MainSource">JsonToDelphiClass.dpr</Source>
                 </Source>
                 <Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\HemulGM\Documents\Skia4Delphi\Library\RAD Studio 11 Alexandria\Win32\Release\Bpl\Skia.Package.VCL280.bpl">Skia4Delphi VCL package</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\HemulGM\Documents\Skia4Delphi\Library\RAD Studio 11 Alexandria\Win32\Release\Bpl\Skia.Package.FMX280.bpl">Skia4Delphi FMX package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k280.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dclofficexp280.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>

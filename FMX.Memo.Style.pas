@@ -108,12 +108,13 @@ type
         function CreateLayout(const S: string; const Index: Integer): TTextLayout;
         function IsWordWrap: Boolean;
         procedure UpdateLayoutParams(Layout: TTextLayout; const Index: Integer);
-        procedure UpdateLayoutsColor;
         procedure CalculateDefaultLineMetrics;
         function GetDefaultLineHeight: Single;
         function GetCount: Integer;
         function GetItem(const Index: Integer): TLineObject;
         procedure UpdateContentBounds(ContentBounds: TRectF);
+      protected
+        procedure UpdateLayoutsColor;
       public
         constructor Create(Memo: TStyledMemo);
         destructor Destroy; override;
@@ -2484,13 +2485,13 @@ end;
 
 procedure TStyledMemo.RecalcOpacity;
 begin
-  inherited;
+ { inherited;
   FLineObjects.UpdateLayoutsColor;
   if not (csDesigning in ComponentState) then
   begin
     UpdateCaretPosition(False);
     RepaintEdit;
-  end;
+  end;    }
 end;
 
 procedure TStyledMemo.GetNormalizedSelectionRange(var ASelStart, ASelEnd: TCaretPosition);

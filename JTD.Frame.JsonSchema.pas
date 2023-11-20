@@ -1,4 +1,4 @@
-﻿unit JTD.Frame.JsonObject;
+﻿unit JTD.Frame.JsonSchema;
 
 interface
 
@@ -7,8 +7,8 @@ uses
   FMX.Types, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.StdCtrls,
   FMX.Memo.Types, FMX.Objects, FMX.ScrollBox, FMX.Memo, FMX.Edit,
   FMX.Controls.Presentation, FMX.TreeView, FMX.Layouts, FMX.TabControl,
-  System.JSON, FMX.TextLayout, Json.Mapper, ChatGPT.Code, FMX.Memo.Style,
-  FMX.Menus;
+  System.JSON, FMX.TextLayout, ChatGPT.Code, FMX.Memo.Style, FMX.Menus,
+  Json.Schema;
 
 type
   TJSONError = record
@@ -19,7 +19,7 @@ type
     Available: Boolean;
   end;
 
-  TFrameJsonObject = class(TFrame)
+  TFrameJsonSchema = class(TFrame)
     LayoutObjectStruct: TLayout;
     TabControlView: TTabControl;
     TabItemJOClass: TTabItem;
@@ -43,7 +43,6 @@ type
     Layout1: TLayout;
     EditUnitName: TEdit;
     Label5: TLabel;
-    CheckBoxMerge: TCheckBox;
     EditRootName: TEdit;
     Label2: TLabel;
     CheckBoxSort: TCheckBox;
@@ -111,7 +110,6 @@ type
     procedure MemoJOUnitChangeTracking(Sender: TObject);
     procedure MemoJOUnitPaint(Sender: TObject; Canvas: TCanvas; const ARect: TRectF);
     procedure MemoPopupMenuPopup(Sender: TObject);
-    procedure MenuItemChangeClassNameClick(Sender: TObject);
     procedure MenuItemChangeTypeClick(Sender: TObject);
     procedure MenuItemJSONCopyClick(Sender: TObject);
     procedure MenuItemJSONCutClick(Sender: TObject);
@@ -120,7 +118,6 @@ type
     procedure MenuItemJSONPasteClick(Sender: TObject);
     procedure MenuItemJSONSelectAllClick(Sender: TObject);
     procedure MenuItemJSONUndoClick(Sender: TObject);
-    procedure MenuItemRenamePropClick(Sender: TObject);
     procedure MenuItemValidateJSONClick(Sender: TObject);
     procedure TreeViewClassesDblClick(Sender: TObject);
     procedure TreeViewClassesMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Single);
@@ -161,7 +158,7 @@ type
     procedure SetOnDoWork(const Value: TNotifyEvent);
     procedure SetOnEndWork(const Value: TNotifyEvent);
   public
-    JsonMapper: TJsonMapper;
+    JsonSchema: TJSONSchema;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     property OnDoWork: TNotifyEvent read FOnDoWork write SetOnDoWork;
@@ -185,12 +182,12 @@ uses
 
 {$R *.fmx}
 
-procedure TFrameJsonObject.ButtonJOOnlineJsonValidatorClick(Sender: TObject);
+procedure TFrameJsonSchema.ButtonJOOnlineJsonValidatorClick(Sender: TObject);
 begin
   MenuItemValidateJSONClick(nil);
 end;
 
-procedure TFrameJsonObject.ButtonJOParseClick(Sender: TObject);
+procedure TFrameJsonSchema.ButtonJOParseClick(Sender: TObject);
 begin
   if FChanged then
     TDialogService.MessageDialog('You made changes to the structure. Do you want to load original class?', TMsgDlgType.mtWarning, [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], TMsgDlgBtn.mbNo, 0,
@@ -204,25 +201,25 @@ begin
     VisualizeClass;
 end;
 
-procedure TFrameJsonObject.ButtonCopyClick(Sender: TObject);
+procedure TFrameJsonSchema.ButtonCopyClick(Sender: TObject);
 begin
   MemoJOUnit.CopyToClipboard;
 end;
 
-procedure TFrameJsonObject.ButtonCopyJSONClick(Sender: TObject);
+procedure TFrameJsonSchema.ButtonCopyJSONClick(Sender: TObject);
 begin
   MemoJOSource.CopyToClipboard;
 end;
 
-destructor TFrameJsonObject.Destroy;
+destructor TFrameJsonSchema.Destroy;
 begin
   FCodeSyntax.Free;
   FCodeSyntaxUnit.Free;
-  JsonMapper.Free;
+  JsonSchema.Free;
   inherited;
 end;
 
-procedure TFrameJsonObject.DoWork;
+procedure TFrameJsonSchema.DoWork;
 begin
   if Assigned(FOnDoWork) then
     FOnDoWork(Self);
@@ -230,7 +227,7 @@ begin
   FInWork := True;
 end;
 
-procedure TFrameJsonObject.EditButtonSourceDownloadClick(Sender: TObject);
+procedure TFrameJsonSchema.EditButtonSourceDownloadClick(Sender: TObject);
 begin
   if EditSourceURL.Text.IsEmpty then
     Exit;
@@ -263,14 +260,14 @@ begin
     end);
 end;
 
-procedure TFrameJsonObject.EndWork;
+procedure TFrameJsonSchema.EndWork;
 begin
   FInWork := False;
   if Assigned(FOnEndWork) then
     FOnEndWork(Self);
 end;
 
-procedure TFrameJsonObject.ButtonJOPasteAndParseClick(Sender: TObject);
+procedure TFrameJsonSchema.ButtonJOPasteAndParseClick(Sender: TObject);
 begin
   MemoJOSource.Lines.Clear;
   MemoJOSource.PasteFromClipboard;
@@ -279,7 +276,7 @@ begin
   ButtonJOParseClick(nil);
 end;
 
-procedure TFrameJsonObject.ButtonPasteClick(Sender: TObject);
+procedure TFrameJsonSchema.ButtonPasteClick(Sender: TObject);
 begin
   MemoJOSource.Lines.Clear;
   MemoJOSource.PasteFromClipboard;
@@ -287,9 +284,9 @@ begin
   MenuItemJSONFormatClick(nil);
 end;
 
-procedure TFrameJsonObject.ButtonSaveUnitClick(Sender: TObject);
+procedure TFrameJsonSchema.ButtonSaveUnitClick(Sender: TObject);
 begin
-  SaveDialogUnit.FileName := JsonMapper.DestinationUnitName + '.pas';
+  SaveDialogUnit.FileName := JsonSchema.DestinationUnitName + '.pas';
   if SaveDialogUnit.Execute then
   begin
     TFile.Create(SaveDialogUnit.FileName).Free;
@@ -297,7 +294,7 @@ begin
   end;
 end;
 
-procedure TFrameJsonObject.MemoJOUnitChange(Sender: TObject);
+procedure TFrameJsonSchema.MemoJOUnitChange(Sender: TObject);
 begin
   FCodeSyntaxUnit.DropCache;
   var Memo := MemoJOUnit.Presentation as TStyledMemo;
@@ -305,7 +302,7 @@ begin
   LayoutUnitActions.Enabled := MemoJOUnit.Text.Length > 0;
 end;
 
-procedure TFrameJsonObject.MemoJOUnitChangeTracking(Sender: TObject);
+procedure TFrameJsonSchema.MemoJOUnitChangeTracking(Sender: TObject);
 begin
   if Parent = nil then
     Exit;
@@ -320,7 +317,7 @@ begin
   FStyledMemoUnit.Repaint;
 end;
 
-procedure TFrameJsonObject.MemoJOUnitPaint(Sender: TObject; Canvas: TCanvas; const ARect: TRectF);
+procedure TFrameJsonSchema.MemoJOUnitPaint(Sender: TObject; Canvas: TCanvas; const ARect: TRectF);
 begin
   // Line number
   var BRect := MemoJOUnit.BoundsRect;
@@ -351,14 +348,14 @@ begin
     end;
 end;
 
-procedure TFrameJsonObject.MemoJOSourceChange(Sender: TObject);
+procedure TFrameJsonSchema.MemoJOSourceChange(Sender: TObject);
 begin
   FCodeSyntax.DropCache;
   FStyledMemo.UpdateVisibleLayoutParams;
   FStyledMemo.Repaint;
 end;
 
-procedure TFrameJsonObject.MemoJOSourceChangeTracking(Sender: TObject);
+procedure TFrameJsonSchema.MemoJOSourceChangeTracking(Sender: TObject);
 begin
   if Parent = nil then
     Exit;
@@ -375,16 +372,16 @@ begin
   FStyledMemo.Repaint;
 end;
 
-procedure TFrameJsonObject.CancelWork;
+procedure TFrameJsonSchema.CancelWork;
 begin
   FDoCancel := True;
 end;
 
-constructor TFrameJsonObject.Create(AOwner: TComponent);
+constructor TFrameJsonSchema.Create(AOwner: TComponent);
 begin
   inherited;
   FDoCancel := False;
-  JsonMapper := TJsonMapper.Create;
+  JsonSchema := TJSONSchema.Create;
 
   TreeViewJOClass.AniCalculations.Animation := True;
   TreeViewClasses.AniCalculations.Animation := True;
@@ -415,7 +412,7 @@ begin
     end);
 end;
 
-procedure TFrameJsonObject.FOnCaretMove(Sender: TObject);
+procedure TFrameJsonSchema.FOnCaretMove(Sender: TObject);
 begin
   var Memo := MemoJOUnit.Presentation as TStyledMemo;
   LabelMemoUnitPos.Text := Format('%d: %d', [Memo.CaretPosition.Line + 1, Memo.CaretPosition.Pos + 1]);
@@ -423,7 +420,7 @@ begin
   LabelMemoSourcePos.Text := Format('%d: %d', [Memo.CaretPosition.Line + 1, Memo.CaretPosition.Pos + 1]);
 end;
 
-procedure TFrameJsonObject.MemoJOSourcePaint(Sender: TObject; Canvas: TCanvas; const ARect: TRectF);
+procedure TFrameJsonSchema.MemoJOSourcePaint(Sender: TObject; Canvas: TCanvas; const ARect: TRectF);
 begin
     // Line number
   var BRect := MemoJOSource.BoundsRect;
@@ -460,7 +457,7 @@ begin
     end;
 end;
 
-procedure TFrameJsonObject.MemoPopupMenuPopup(Sender: TObject);
+procedure TFrameJsonSchema.MemoPopupMenuPopup(Sender: TObject);
 begin
   var Memo := MemoJOSource.Presentation as TStyledMemo;
   MenuItemJSONUndo.Enabled := Memo.CanUndo;
@@ -472,25 +469,7 @@ begin
   MenuItemJSONFormat.Enabled := MemoJOSource.Text.Length > 0;
 end;
 
-procedure TFrameJsonObject.MenuItemRenamePropClick(Sender: TObject);
-begin
-  var LItem :=(Sender as TFmxObject).TagObject as TJProperty;
-  TDialogService.InputQuery('Rename Property ' + LItem.Name, ['Enter new Property name'], [LItem.Name],
-    procedure(const AResult: TModalResult; const AValues: array of string)
-    begin
-      if AResult <> mrOk then
-        Exit;
-      var LString := AValues[0];
-      if (LString <> '') and (LString.ToLower <> LItem.Name.ToLower) then
-      begin
-        FChanged := True;
-        LItem.ChangeName(LString);
-        UpdateAll;
-      end;
-    end);
-end;
-
-procedure TFrameJsonObject.MenuItemJSONFormatClick(Sender: TObject);
+procedure TFrameJsonSchema.MenuItemJSONFormatClick(Sender: TObject);
 begin
   try
     var LJsonValue := TJSONObject.ParseJSONValue(MemoJOSource.Text, False, True);
@@ -517,63 +496,45 @@ begin
   end;
 end;
 
-procedure TFrameJsonObject.MenuItemJSONCopyClick(Sender: TObject);
+procedure TFrameJsonSchema.MenuItemJSONCopyClick(Sender: TObject);
 begin
   MemoJOSource.CopyToClipboard;
 end;
 
-procedure TFrameJsonObject.MenuItemJSONCutClick(Sender: TObject);
+procedure TFrameJsonSchema.MenuItemJSONCutClick(Sender: TObject);
 begin
   MemoJOSource.CutToClipboard;
 end;
 
-procedure TFrameJsonObject.MenuItemJSONDeleteClick(Sender: TObject);
+procedure TFrameJsonSchema.MenuItemJSONDeleteClick(Sender: TObject);
 begin
   MemoJOSource.DeleteSelection;
 end;
 
-procedure TFrameJsonObject.MenuItemJSONPasteClick(Sender: TObject);
+procedure TFrameJsonSchema.MenuItemJSONPasteClick(Sender: TObject);
 begin
   MemoJOSource.PasteFromClipboard;
 end;
 
-procedure TFrameJsonObject.MenuItemJSONSelectAllClick(Sender: TObject);
+procedure TFrameJsonSchema.MenuItemJSONSelectAllClick(Sender: TObject);
 begin
   MemoJOSource.SelectAll;
 end;
 
-procedure TFrameJsonObject.MenuItemJSONUndoClick(Sender: TObject);
+procedure TFrameJsonSchema.MenuItemJSONUndoClick(Sender: TObject);
 begin
   MemoJOSource.UnDo;
 end;
 
-procedure TFrameJsonObject.MenuItemChangeClassNameClick(Sender: TObject);
+procedure TFrameJsonSchema.UpdateAll;
 begin
-  var LItem :=(Sender as TFmxObject).TagObject as TJClass;
-  TDialogService.InputQuery('Rename Class ' + LItem.Name, ['Enter new Class name'], [LItem.Name],
-    procedure(const AResult: TModalResult; const AValues: array of string)
-    begin
-      if AResult <> mrOk then
-        Exit;
-      var LString := AValues[0];
-      if (LString <> '') and (LString.ToLower <> LItem.Name.ToLower) then
-      begin
-        FChanged := True;
-        LItem.NameDirect := LString;
-        UpdateAll;
-      end;
-    end);
-end;
-
-procedure TFrameJsonObject.UpdateAll;
-begin
-  JsonMapper.Visualize(TreeViewJOClass, '');
-  JsonMapper.VisualizeClasses(TreeViewClasses, '');
+  JsonSchema.Visualize(TreeViewJOClass, '');
+  JsonSchema.VisualizeClasses(TreeViewClasses, '');
   UpdateUnit(True);
 end;
 
-procedure TFrameJsonObject.MenuItemChangeTypeClick(Sender: TObject);
-begin
+procedure TFrameJsonSchema.MenuItemChangeTypeClick(Sender: TObject);
+begin      {
   var LItem :=(Sender as TFmxObject).TagObject as TJProperty;
   var SType := '';
   if LItem is TJPropertyArray then
@@ -588,10 +549,10 @@ begin
       FChanged := True;
       LItem.CustomType := AValues[0];
       UpdateAll;
-    end);
+    end);  }
 end;
 
-procedure TFrameJsonObject.MenuItemValidateJSONClick(Sender: TObject);
+procedure TFrameJsonSchema.MenuItemValidateJSONClick(Sender: TObject);
 begin
   {$IFDEF MSWINDOWS}
   ShellExecute(0, 'open', PChar(JsonValidatorUrl), '', '', SW_SHOWNORMAL);
@@ -601,54 +562,14 @@ begin
   {$ENDIF POSIX}
 end;
 
-procedure TFrameJsonObject.PrepareMenu(TreeView: TTreeView);
+procedure TFrameJsonSchema.PrepareMenu(TreeView: TTreeView);
 begin
   for var i := 0 to MainPopupMenu.ItemsCount - 1 do
     MainPopupMenu.Items[i].Enabled := False;
   MenuItemFieldCaption.Text := '---';
-  if (TreeView.Selected <> nil) and (TreeView.Selected.TagObject <> nil) then
-  begin
-    MenuItemFieldCaption.Text := TreeView.Selected.Text;
-    if TreeView.Selected.TagObject is TJProperty then
-    begin
-      MenuItemRenameProp.Enabled := True;
-      MenuItemRenameProp.TagObject := TreeView.Selected.TagObject;
-
-      var LField := TJProperty(TreeView.Selected.TagObject);
-
-      if (LField is TJPropertyArray) then
-        if (TJPropertyArray(LField).ContainedType = TJsonType.jtObject) then
-        begin
-          MenuItemChangeClassName.Enabled := True;
-          MenuItemChangeClassName.TagObject := TJPropertyArray(LField).FieldClass;
-        end
-        else
-        begin
-          MenuItemChangeType.Enabled := True;
-          MenuItemChangeType.TagObject := LField;
-        end;
-
-      if LField is TJPropertyObject then
-      begin
-        MenuItemChangeClassName.Enabled := True;
-        MenuItemChangeClassName.TagObject := TJPropertyObject(LField).FieldClass;
-      end;
-
-      if LField is TJPropertyPrimitive then
-      begin
-        MenuItemChangeType.Enabled := True;
-        MenuItemChangeType.TagObject := LField;
-      end;
-    end
-    else if TreeView.Selected.TagObject is TJClass then
-    begin
-      MenuItemChangeClassName.Enabled := True;
-      MenuItemChangeClassName.TagObject := TreeView.Selected.TagObject;
-    end;
-  end;
 end;
 
-procedure TFrameJsonObject.TreeViewClassesDblClick(Sender: TObject);
+procedure TFrameJsonSchema.TreeViewClassesDblClick(Sender: TObject);
 begin
   if TreeViewClasses.Selected <> nil then
     if TreeViewClasses.Selected.Enabled then
@@ -658,7 +579,7 @@ begin
     end;
 end;
 
-procedure TFrameJsonObject.TreeViewClassesMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Single);
+procedure TFrameJsonSchema.TreeViewClassesMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Single);
 begin
   if Button = TMouseButton.mbRight then
   begin
@@ -672,21 +593,21 @@ begin
   end;
 end;
 
-procedure TFrameJsonObject.JumpTo(Obj: TObject);
+procedure TFrameJsonSchema.JumpTo(Obj: TObject);
 begin
-  if Obj is TJProperty then
+  if Obj is TDClassProperty then
   begin
     TabControlJOMain.ActiveTab := TabItemJOUnit;
-    MemoJOUnit.Model.CaretPosition := TCaretPosition.Create(TJProperty(Obj).LineNumber, 0);
+    //MemoJOUnit.Model.CaretPosition := TCaretPosition.Create(TDClassProperty(Obj).LineNumber, 0);
     var Pt := MemoJOUnit.Caret.Pos;
     Pt.Offset(0, -MemoJOUnit.Height / 2);
     MemoJOUnit.ViewportPosition := Pt;
     MemoJOUnit.Repaint;
   end
-  else if Obj is TJClass then
+  else if Obj is TDClass then
   begin
     TabControlJOMain.ActiveTab := TabItemJOUnit;
-    MemoJOUnit.Model.CaretPosition := TCaretPosition.Create(TJClass(Obj).LineNumber, 0);
+    //MemoJOUnit.Model.CaretPosition := TCaretPosition.Create(TJClass(Obj).LineNumber, 0);
     var Pt := MemoJOUnit.Caret.Pos;
     Pt.Offset(0, -MemoJOUnit.Height / 2);
     MemoJOUnit.ViewportPosition := Pt;
@@ -694,7 +615,7 @@ begin
   end;
 end;
 
-procedure TFrameJsonObject.TreeViewJOClassDblClick(Sender: TObject);
+procedure TFrameJsonSchema.TreeViewJOClassDblClick(Sender: TObject);
 begin
   if TreeViewJOClass.Selected <> nil then
     if TreeViewJOClass.Selected.Enabled then
@@ -704,7 +625,7 @@ begin
     end;
 end;
 
-procedure TFrameJsonObject.TreeViewJOClassMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Single);
+procedure TFrameJsonSchema.TreeViewJOClassMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Single);
 begin
   if Button = TMouseButton.mbRight then
   begin
@@ -718,7 +639,7 @@ begin
   end;
 end;
 
-procedure TFrameJsonObject.UpdateLayout(Sender: TObject; Layout: TTextLayout; const Index: Integer);
+procedure TFrameJsonSchema.UpdateLayout(Sender: TObject; Layout: TTextLayout; const Index: Integer);
 begin
   if not Assigned(Layout) then
     Exit;
@@ -735,7 +656,7 @@ begin
   end;
 end;
 
-procedure TFrameJsonObject.UpdateLayoutUnit(Sender: TObject; Layout: TTextLayout; const Index: Integer);
+procedure TFrameJsonSchema.UpdateLayoutUnit(Sender: TObject; Layout: TTextLayout; const Index: Integer);
 begin
   if not Assigned(Layout) then
     Exit;
@@ -752,27 +673,27 @@ begin
   end;
 end;
 
-procedure TFrameJsonObject.UpdateUnit(SavePos: Boolean);
+procedure TFrameJsonSchema.UpdateUnit(SavePos: Boolean);
 begin
   var Pos := MemoJOUnit.VScrollBar.Value;
-  MemoJOUnit.Text := JsonMapper.GenerateUnit;
+  MemoJOUnit.Text := JsonSchema.GenerateUnit;
   if SavePos then
     MemoJOUnit.VScrollBar.Value := Pos
   else
     MemoJOUnit.VScrollBar.Value := 0;
 end;
 
-procedure TFrameJsonObject.SetOnDoWork(const Value: TNotifyEvent);
+procedure TFrameJsonSchema.SetOnDoWork(const Value: TNotifyEvent);
 begin
   FOnDoWork := Value;
 end;
 
-procedure TFrameJsonObject.SetOnEndWork(const Value: TNotifyEvent);
+procedure TFrameJsonSchema.SetOnEndWork(const Value: TNotifyEvent);
 begin
   FOnEndWork := Value;
 end;
 
-procedure TFrameJsonObject.ShowJsonError(E: TJSONError);
+procedure TFrameJsonSchema.ShowJsonError(E: TJSONError);
 begin
   FSourceError := E;
   FShowError := True;
@@ -785,7 +706,7 @@ begin
   MemoJOSource.SetFocus;
 end;
 
-procedure TFrameJsonObject.VisualizeClass;
+procedure TFrameJsonSchema.VisualizeClass;
 begin
   FChanged := False;
   TreeViewJOClass.Enabled := True;
@@ -798,13 +719,12 @@ begin
   var JSON := MemoJOSource.Text;
   var RootName := EditRootName.Text;
 
-  JsonMapper.MergeSameClasses := CheckBoxMerge.IsChecked;
-  JsonMapper.SortFields := CheckBoxSort.IsChecked;
-  JsonMapper.DestinationUnitName := EditUnitName.Text;
-  JsonMapper.BaseClassName := EditBaseClassName.Text;
-  JsonMapper.BaseClassUnit := EditBaseClassUnit.Text;
-  JsonMapper.NumericDuplicate := CheckBoxNumericDuplicate.IsChecked;
-  JsonMapper.ForwardDeclarate := CheckBoxForwardDeclarate.IsChecked;
+  JsonSchema.SortFields := CheckBoxSort.IsChecked;
+  JsonSchema.DestinationUnitName := EditUnitName.Text;
+  JsonSchema.BaseClassName := EditBaseClassName.Text;
+  JsonSchema.BaseClassUnit := EditBaseClassUnit.Text;
+  JsonSchema.NumericDuplicate := CheckBoxNumericDuplicate.IsChecked;
+  JsonSchema.ForwardDeclarate := CheckBoxForwardDeclarate.IsChecked;
 
   DoWork;
   TaskRun(Self,
@@ -814,7 +734,7 @@ begin
       var ErrorInfo: TJSONError;
       ErrorInfo.Available := False;
       try
-        JsonMapper.Parse(JSON, RootName);
+        JsonSchema.Parse(JSON, RootName);
       except
         on E: EJSONParseException do
         begin
@@ -841,8 +761,8 @@ begin
             raise Exception.Create(Error);
           end;
 
-          JsonMapper.Visualize(TreeViewJOClass, '');
-          JsonMapper.VisualizeClasses(TreeViewClasses, '');
+          JsonSchema.Visualize(TreeViewJOClass, '');
+          JsonSchema.VisualizeClasses(TreeViewClasses, '');
           UpdateUnit;
         end);
     end);

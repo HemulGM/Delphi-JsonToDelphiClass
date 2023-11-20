@@ -1,4 +1,4 @@
-object FrameJsonObject: TFrameJsonObject
+object FrameJsonSchema: TFrameJsonSchema
   Size.Width = 1085.000000000000000000
   Size.Height = 646.000000000000000000
   Size.PlatformDefault = False
@@ -12,7 +12,7 @@ object FrameJsonObject: TFrameJsonObject
     Size.Width = 374.000000000000000000
     Size.Height = 646.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 3
+    TabOrder = 2
     object TabControlView: TTabControl
       Align = Client
       Size.Width = 362.000000000000000000
@@ -201,7 +201,7 @@ object FrameJsonObject: TFrameJsonObject
       Align = Top
       Margins.Bottom = 8.000000000000000000
       Position.X = 6.000000000000000000
-      Position.Y = 321.000000000000000000
+      Position.Y = 289.000000000000000000
       Size.Width = 228.000000000000000000
       Size.Height = 40.000000000000000000
       Size.PlatformDefault = False
@@ -213,7 +213,7 @@ object FrameJsonObject: TFrameJsonObject
       Align = Top
       Margins.Bottom = 8.000000000000000000
       Position.X = 6.000000000000000000
-      Position.Y = 417.000000000000000000
+      Position.Y = 385.000000000000000000
       Size.Width = 228.000000000000000000
       Size.Height = 40.000000000000000000
       Size.PlatformDefault = False
@@ -227,7 +227,7 @@ object FrameJsonObject: TFrameJsonObject
       Position.X = 6.000000000000000000
       Position.Y = 6.000000000000000000
       Size.Width = 228.000000000000000000
-      Size.Height = 315.000000000000000000
+      Size.Height = 283.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 4
       object EditUnitName: TEdit
@@ -249,15 +249,6 @@ object FrameJsonObject: TFrameJsonObject
         Size.PlatformDefault = False
         Text = 'Destination Unit Name:'
         TabOrder = 12
-      end
-      object CheckBoxMerge: TCheckBox
-        Position.X = 8.000000000000000000
-        Position.Y = 134.000000000000000000
-        Size.Width = 212.000000000000000000
-        Size.Height = 19.000000000000000000
-        Size.PlatformDefault = False
-        TabOrder = 17
-        Text = 'Merge same classes (beta)'
       end
       object EditRootName: TEdit
         Touch.InteractiveGestures = [LongTap, DoubleTap]
@@ -281,7 +272,7 @@ object FrameJsonObject: TFrameJsonObject
       end
       object CheckBoxSort: TCheckBox
         Position.X = 8.000000000000000000
-        Position.Y = 161.000000000000000000
+        Position.Y = 134.000000000000000000
         Size.Width = 212.000000000000000000
         Size.Height = 19.000000000000000000
         Size.PlatformDefault = False
@@ -291,7 +282,7 @@ object FrameJsonObject: TFrameJsonObject
       object CheckBoxNumericDuplicate: TCheckBox
         IsChecked = True
         Position.X = 8.000000000000000000
-        Position.Y = 188.000000000000000000
+        Position.Y = 161.000000000000000000
         Size.Width = 212.000000000000000000
         Size.Height = 19.000000000000000000
         Size.PlatformDefault = False
@@ -300,7 +291,7 @@ object FrameJsonObject: TFrameJsonObject
       end
       object CheckBoxForwardDeclarate: TCheckBox
         Position.X = 8.000000000000000000
-        Position.Y = 215.000000000000000000
+        Position.Y = 188.000000000000000000
         Size.Width = 212.000000000000000000
         Size.Height = 19.000000000000000000
         Size.PlatformDefault = False
@@ -309,7 +300,7 @@ object FrameJsonObject: TFrameJsonObject
       end
       object Label7: TLabel
         Position.X = 8.000000000000000000
-        Position.Y = 242.000000000000000000
+        Position.Y = 215.000000000000000000
         Size.Width = 182.000000000000000000
         Size.Height = 17.000000000000000000
         Size.PlatformDefault = False
@@ -320,7 +311,7 @@ object FrameJsonObject: TFrameJsonObject
         Touch.InteractiveGestures = [LongTap, DoubleTap]
         TabOrder = 2
         Position.X = 128.000000000000000000
-        Position.Y = 267.000000000000000000
+        Position.Y = 240.000000000000000000
         Size.Width = 92.000000000000000000
         Size.Height = 30.000000000000000000
         Size.PlatformDefault = False
@@ -330,7 +321,7 @@ object FrameJsonObject: TFrameJsonObject
         Touch.InteractiveGestures = [LongTap, DoubleTap]
         TabOrder = 1
         Position.X = 8.000000000000000000
-        Position.Y = 267.000000000000000000
+        Position.Y = 240.000000000000000000
         Size.Width = 112.000000000000000000
         Size.Height = 30.000000000000000000
         Size.PlatformDefault = False
@@ -351,7 +342,7 @@ object FrameJsonObject: TFrameJsonObject
       Align = Top
       Margins.Bottom = 8.000000000000000000
       Position.X = 6.000000000000000000
-      Position.Y = 369.000000000000000000
+      Position.Y = 337.000000000000000000
       Size.Width = 228.000000000000000000
       Size.Height = 40.000000000000000000
       Size.PlatformDefault = False
@@ -405,46 +396,92 @@ object FrameJsonObject: TFrameJsonObject
         DataDetectorTypes = []
         HideSelectionOnExit = False
         Lines.Strings = (
-          '[{'
-          '    "id": "asst_abc123",'
-          '    "object": "assistant",'
-          '    "created_at": 1698984975,'
-          '    "name": "Math Tutor",'
-          '    "description": null,'
-          '    "model": "gpt-4",'
-          
-            '    "instructions": "You are a personal math tutor. When asked a' +
-            ' question, write and run Python code to answer the question.",'
-          '    "tools": ['
-          '        {'
-          '            "type": "code_interpreter"'
-          '        }'
-          '    ],'
-          '    "file_ids": ['
-          '    ],'
-          '    "metadata": {'
-          '    }'
-          '},'
           '{'
-          '    "id": "asst_abc123",'
-          '    "object": "assistant",'
-          '    "created_at": 1698984975,'
-          '    "name": "Math Tutor",'
-          '    "description": {},'
-          '    "model": "gpt-4",'
-          
-            '    "instructions": "You are a personal math tutor. When asked a' +
-            ' question, write and run Python code to answer the question.",'
-          '    "tools": ['
-          '        {'
-          '            "type": "code_interpreter"'
+          '    "$schema": "https://json-schema.org/draft/2019-09/schema",'
+          '    "$id": "http://example.com/example.json",'
+          '    "type": "object",'
+          '    "default": {},'
+          '    "title": "Root Schema",'
+          '    "required": ['
+          '        "names",'
+          '        "item_string",'
+          '        "item_int",'
+          '        "item_num",'
+          '        "item_object",'
+          '        "item_bool"'
+          '    ],'
+          '    "properties": {'
+          '        "names": {'
+          '            "type": "array",'
+          '            "default": [],'
+          '            "title": "The names Schema",'
+          '            "items": {'
+          '                "type": "string",'
+          '                "title": "A Schema",'
+          '                "examples": ['
+          '                    "home",'
+          '                    "green"'
+          '                ]'
+          '            },'
+          '            "examples": ['
+          '                ["home",'
+          '                    "green"'
+          '                ]'
+          '            ]'
+          '        },'
+          '        "item_string": {'
+          '            "type": "string",'
+          '            "default": "",'
+          '            "title": "The item_string Schema",'
+          '            "examples": ['
+          '                ""'
+          '            ]'
+          '        },'
+          '        "item_int": {'
+          '            "type": "integer",'
+          '            "default": 0,'
+          '            "title": "The item_int Schema",'
+          '            "examples": ['
+          '                0'
+          '            ]'
+          '        },'
+          '        "item_num": {'
+          '            "type": "number",'
+          '            "default": 0.0,'
+          '            "title": "The item_num Schema",'
+          '            "examples": ['
+          '                0.0'
+          '            ]'
+          '        },'
+          '        "item_object": {'
+          '            "type": "object",'
+          '            "default": {},'
+          '            "title": "The item_object Schema",'
+          '            "required": [],'
+          '            "properties": {},'
+          '            "examples": [{}]'
+          '        },'
+          '        "item_bool": {'
+          '            "type": "boolean",'
+          '            "default": false,'
+          '            "title": "The item_bool Schema",'
+          '            "examples": ['
+          '                true'
+          '            ]'
           '        }'
-          '    ],'
-          '    "file_ids": ['
-          '    ],'
-          '    "metadata": {'
-          '    }'
-          '}]')
+          '    },'
+          '    "examples": [{'
+          '        "names": ['
+          '            "home",'
+          '            "green"'
+          '        ],'
+          '        "item_string": "",'
+          '        "item_int": 0,'
+          '        "item_num": 0.0,'
+          '        "item_object": {},'
+          '        "item_bool": true'
+          '    }]'
+          '}')
         StyledSettings = [Style, FontColor]
         TextSettings.Font.Family = 'Consolas'
         TextSettings.Font.Size = 16.000000000000000000
@@ -467,7 +504,7 @@ object FrameJsonObject: TFrameJsonObject
         Size.Width = 443.000000000000000000
         Size.Height = 30.000000000000000000
         Size.PlatformDefault = False
-        Text = 'Paste JSON String here:'
+        Text = 'Paste JSON Schema here:'
         TabOrder = 1
       end
       object Layout2: TLayout
@@ -600,7 +637,7 @@ object FrameJsonObject: TFrameJsonObject
           Size.Width = 443.000000000000000000
           Size.Height = 30.000000000000000000
           Size.PlatformDefault = False
-          Text = 'Download json by url:'
+          Text = 'Download json schema by url:'
           TabOrder = 1
         end
       end
@@ -865,11 +902,9 @@ object FrameJsonObject: TFrameJsonObject
     end
     object MenuItemRenameProp: TMenuItem
       Text = 'Rename Property'
-      OnClick = MenuItemRenamePropClick
     end
     object MenuItemChangeClassName: TMenuItem
       Text = 'Change Class Name'
-      OnClick = MenuItemChangeClassNameClick
     end
     object MenuItemChangeType: TMenuItem
       Text = 'Change Type'
@@ -879,7 +914,7 @@ object FrameJsonObject: TFrameJsonObject
   object SaveDialogUnit: TSaveDialog
     DefaultExt = '.pas'
     Filter = 'Delphi unit (*.pas)|*.pas'
-    Left = 120
+    Left = 208
     Top = 472
   end
 end

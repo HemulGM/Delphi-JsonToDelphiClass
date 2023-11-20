@@ -10,7 +10,7 @@ uses
   FMX.ScrollBox, FMX.Memo.Types, FMX.Effects, FMX.Filter.Effects, FMX.Memo.Style,
   ChatGPT.Code, FMX.TextLayout, FMX.Ani, HGM.MaterialDesignStyle,
   System.ImageList, FMX.ImgList, FMX.SVGIconImageList, FMX.TabControl,
-  FMX.Platform.Win, FMX.SVGIconImage, JTD.Frame.JsonObject;
+  FMX.Platform.Win, FMX.SVGIconImage, JTD.Frame.JsonObject, JTD.Frame.JsonSchema;
 
 const
   JsonValidatorUrl = 'https://jsonlint.com';
@@ -54,14 +54,15 @@ type
     TabItemMenu: TTabItem;
     ButtonOpenJObject: TButton;
     ButtonOpenJSchema: TButton;
-    Layout7: TLayout;
-    Image1: TImage;
+    LayoutHead: TLayout;
+    ImageLogo: TImage;
     LabelTitle: TLabel;
     ButtonMenu: TButton;
     Layout8: TLayout;
     SVGIconImage1: TSVGIconImage;
     SVGIconImage2: TSVGIconImage;
     FrameJsonObject: TFrameJsonObject;
+    FrameJsonSchema: TFrameJsonSchema;
     Label1: TLabel;
     Label2: TLabel;
     Layout1: TLayout;
@@ -69,6 +70,9 @@ type
     Image2: TImage;
     Label3: TLabel;
     LayoutMenu: TLayout;
+    RectangleWork: TRectangle;
+    AniIndicatorWork: TAniIndicator;
+    Label4: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure TimerRepaintTimer(Sender: TObject);
@@ -78,8 +82,8 @@ type
     procedure ButtonMenuClick(Sender: TObject);
   private
     FMDStyle3: TMaterialDesignStyle3;
-    procedure DoWork;
-    procedure EndWork;
+    procedure DoWork(Sender: TObject);
+    procedure EndWork(Sender: TObject);
     procedure SetStyle;
   public
   end;
@@ -155,16 +159,18 @@ begin
   TabControlMode.ActiveTab := TabItemJSchema;
 end;
 
-procedure TFormMain.DoWork;
+procedure TFormMain.DoWork(Sender: TObject);
 begin
-  //AniIndicatorWork.Visible := True;
-  //AniIndicatorWork.Enabled := True;
+  RectangleWork.Visible := True;
+  if Sender is TControl then
+    TControl(Sender).Enabled := False;
 end;
 
-procedure TFormMain.EndWork;
+procedure TFormMain.EndWork(Sender: TObject);
 begin
-  //AniIndicatorWork.Visible := False;
-  //AniIndicatorWork.Enabled := False;
+  RectangleWork.Visible := False;
+  if Sender is TControl then
+    TControl(Sender).Enabled := True;
 end;
 
 procedure TFormMain.FormCreate(Sender: TObject);
@@ -179,6 +185,13 @@ begin
   TabControlMode.TabPosition := TTabPosition.None;
   TabControlMode.ActiveTab := TabItemMenu;
   TabControlModeChange(nil);
+
+  RectangleWork.Visible := False;
+  FrameJsonObject.OnDoWork := DoWork;
+  FrameJsonObject.OnEndWork := EndWork;
+  FrameJsonSchema.OnDoWork := DoWork;
+  FrameJsonSchema.OnEndWork := EndWork;
+
   Width := 1400;
 end;
 
@@ -189,13 +202,16 @@ end;
 
 procedure TFormMain.TabControlModeChange(Sender: TObject);
 begin
-  ButtonMenu.Visible := TabControlMode.ActiveTab <> TabItemMenu;
+  if TabControlMode.ActiveTab = TabItemMenu then
+    TAnimator.AnimateFloat(ButtonMenu, 'Margins.Left', -(ButtonMenu.Width + ButtonMenu.ParentControl.Padding.Left))
+  else
+    TAnimator.AnimateFloat(ButtonMenu, 'Margins.Left', 0);
+  //ButtonMenu.Visible := TabControlMode.ActiveTab <> TabItemMenu;
   if TabControlMode.ActiveTab = TabItemJObject then
   begin
     ButtonMenu.Text := 'JSON Object';
-    FrameJsonObject.Opacity := 0;
-    TAnimator.AnimateFloat(FrameJsonObject, 'Opacity', 1);
-    FrameJsonObject.MemoJOUnitChangeTracking(nil);
+    //FrameJsonObject.Scale.Y := 0;
+    //TAnimator.AnimateFloat(FrameJsonObject, 'Scale.Y', 1);
   end
   else if TabControlMode.ActiveTab = TabItemJSchema then
   begin
