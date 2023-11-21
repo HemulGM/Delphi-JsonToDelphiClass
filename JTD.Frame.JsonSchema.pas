@@ -19,6 +19,14 @@ type
     Available: Boolean;
   end;
 
+  TMemo = class(FMX.Memo.TMemo)
+  private
+    FViewPositionY: Single;
+    procedure SetViewPositionY(const Value: Single);
+  published
+    property ViewPositionY: Single read FViewPositionY write SetViewPositionY;
+  end;
+
   TFrameJsonSchema = class(TFrame)
     LayoutObjectStruct: TLayout;
     TabControlView: TTabControl;
@@ -177,7 +185,7 @@ uses
   {$ENDIF}
   {$IFDEF POSIX}
   Posix.Stdlib,
-  {$ENDIF POSIX} FMX.DialogService, FMX.BehaviorManager, JTD.Utils;
+  {$ENDIF POSIX} FMX.DialogService, FMX.BehaviorManager, FMX.Ani, JTD.Utils;
 
 {$R *.fmx}
 
@@ -566,6 +574,47 @@ begin
   for var i := 0 to MainPopupMenu.ItemsCount - 1 do
     MainPopupMenu.Items[i].Enabled := False;
   MenuItemFieldCaption.Text := '---';
+
+  if (TreeView.Selected <> nil) and (TreeView.Selected.TagObject <> nil) then
+  begin
+    MenuItemFieldCaption.Text := TreeView.Selected.Text;
+    if TreeView.Selected.TagObject is TDClassProperty then
+    begin
+      MenuItemRenameProp.Enabled := True;
+      MenuItemRenameProp.TagObject := TreeView.Selected.TagObject;
+
+      var LField := TDClassProperty(TreeView.Selected.TagObject);
+
+      if (LField.PropertyType is TDTypeArray) then
+      begin
+        if (TDTypeArray(LField.PropertyType).TypeItem is TDTypeObject) then
+        begin
+          MenuItemChangeClassName.Enabled := True;
+          MenuItemChangeClassName.TagObject := TDTypeObject(TDTypeArray(LField.PropertyType).TypeItem).TypeClass;
+        end
+        else
+        begin
+          MenuItemChangeType.Enabled := True;
+          MenuItemChangeType.TagObject := LField.PropertyType;
+        end;
+      end
+      else if LField.PropertyType is TDTypeObject then
+      begin
+        MenuItemChangeClassName.Enabled := True;
+        MenuItemChangeClassName.TagObject := TDTypeObject(LField.PropertyType).TypeClass;
+      end
+      else
+      begin
+        MenuItemChangeType.Enabled := True;
+        MenuItemChangeType.TagObject := LField;
+      end;
+    end
+    else if TreeView.Selected.TagObject is TDClass then
+    begin
+      MenuItemChangeClassName.Enabled := True;
+      MenuItemChangeClassName.TagObject := TreeView.Selected.TagObject;
+    end;
+  end;
 end;
 
 procedure TFrameJsonSchema.TreeViewClassesDblClick(Sender: TObject);
@@ -597,19 +646,19 @@ begin
   if Obj is TDClassProperty then
   begin
     TabControlJOMain.ActiveTab := TabItemJOUnit;
-    //MemoJOUnit.Model.CaretPosition := TCaretPosition.Create(TDClassProperty(Obj).LineNumber, 0);
+    MemoJOUnit.Model.CaretPosition := TCaretPosition.Create(TDClassProperty(Obj).LineNumber, 0);
     var Pt := MemoJOUnit.Caret.Pos;
     Pt.Offset(0, -MemoJOUnit.Height / 2);
-    MemoJOUnit.ViewportPosition := Pt;
+    TAnimator.AnimateFloat(MemoJOUnit, 'ViewPositionY', Pt.Y);
     MemoJOUnit.Repaint;
   end
   else if Obj is TDClass then
   begin
     TabControlJOMain.ActiveTab := TabItemJOUnit;
-    //MemoJOUnit.Model.CaretPosition := TCaretPosition.Create(TJClass(Obj).LineNumber, 0);
+    MemoJOUnit.Model.CaretPosition := TCaretPosition.Create(TDClass(Obj).LineNumber, 0);
     var Pt := MemoJOUnit.Caret.Pos;
     Pt.Offset(0, -MemoJOUnit.Height / 2);
-    MemoJOUnit.ViewportPosition := Pt;
+    TAnimator.AnimateFloat(MemoJOUnit, 'ViewPositionY', Pt.Y);
     MemoJOUnit.Repaint;
   end;
 end;
@@ -701,6 +750,9 @@ begin
   MemoJOSource.SelLength := 0;
   MemoJOSource.Model.CaretPosition := TCaretPosition.Create(E.Line - 1, E.Position - 1);
   TabControlJOMain.ActiveTab := TabItemJOSource;
+  var Pt := MemoJOSource.Caret.Pos;
+  Pt.Offset(0, -MemoJOSource.Height / 2);
+  TAnimator.AnimateFloat(MemoJOSource, 'ViewPositionY', Pt.Y);
   MemoJOSource.Repaint;
   MemoJOSource.SetFocus;
 end;
@@ -764,6 +816,14 @@ begin
           UpdateUnit;
         end);
     end);
+end;
+
+{ TMemo }
+
+procedure TMemo.SetViewPositionY(const Value: Single);
+begin
+  FViewPositionY := Value;
+  ViewportPosition := TPointF.Create(ViewportPosition.X, FViewPositionY);
 end;
 
 end.

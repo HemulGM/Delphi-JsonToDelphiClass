@@ -12170,7 +12170,7 @@ object FormMain: TFormMain
                 Size.PlatformDefault = False
                 TextSettings.FontColor = xFF7D7D7D
                 Text = 'Generate class from json object'
-                TabOrder = 36
+                TabOrder = 35
               end
             end
             object ButtonOpenJSchema: TButton
@@ -12237,7 +12237,7 @@ object FormMain: TFormMain
                 Size.PlatformDefault = False
                 TextSettings.FontColor = xFF7D7D7D
                 Text = 'Generate class from json schema'
-                TabOrder = 36
+                TabOrder = 35
               end
             end
           end
@@ -12271,7 +12271,7 @@ object FormMain: TFormMain
                 362s
                 557s)
               inherited TabItemJOClass: TTabItem
-                Size.Width = 56.000000000000000000
+                Size.Width = 79.000000000000000000
                 ExplicitSize.cx = 56.000000000000000000
                 ExplicitSize.cy = 48.000000000000000000
                 inherited TreeViewJOClass: TTreeView
@@ -12308,7 +12308,7 @@ object FormMain: TFormMain
               460s
               565s)
             inherited TabItemJOSource: TTabItem
-              Size.Width = 104.000000000000000000
+              Size.Width = 65.000000000000000000
               ExplicitSize.cx = 104.000000000000000000
               ExplicitSize.cy = 48.000000000000000000
               inherited MemoJOSource: TMemo
@@ -12358,7 +12358,7 @@ object FormMain: TFormMain
               end
             end
             inherited TabItemJOUnit: TTabItem
-              Size.Width = 100.000000000000000000
+              Size.Width = 47.000000000000000000
               ExplicitSize.cx = 100.000000000000000000
               ExplicitSize.cy = 48.000000000000000000
               inherited MemoJOUnit: TMemo
@@ -12424,7 +12424,7 @@ object FormMain: TFormMain
                 362s
                 557s)
               inherited TabItemJOClass: TTabItem
-                Size.Width = 56.000000000000000000
+                Size.Width = 79.000000000000000000
                 ExplicitSize.cx = 56.000000000000000000
                 ExplicitSize.cy = 48.000000000000000000
                 inherited TreeViewJOClass: TTreeView
@@ -12461,14 +12461,14 @@ object FormMain: TFormMain
               460s
               565s)
             inherited TabItemJOSource: TTabItem
-              Size.Width = 104.000000000000000000
+              Size.Width = 65.000000000000000000
               ExplicitSize.cx = 104.000000000000000000
               ExplicitSize.cy = 48.000000000000000000
               inherited MemoJOSource: TMemo
                 Size.Width = 460.000000000000000000
                 Size.Height = 448.000000000000000000
-                Viewport.Width = 399.000000000000000000
-                Viewport.Height = 434.000000000000000000
+                Viewport.Width = 460.000000000000000000
+                Viewport.Height = 448.000000000000000000
               end
               inherited Label4: TLabel
                 Size.Width = 460.000000000000000000
@@ -12509,7 +12509,7 @@ object FormMain: TFormMain
               end
             end
             inherited TabItemJOUnit: TTabItem
-              Size.Width = 100.000000000000000000
+              Size.Width = 47.000000000000000000
               ExplicitSize.cx = 100.000000000000000000
               ExplicitSize.cy = 48.000000000000000000
               inherited MemoJOUnit: TMemo
@@ -12702,6 +12702,7 @@ object FormMain: TFormMain
       item
         MultiResBitmap = <
           item
+            Size = 20
           end>
         IconName = 'Item 0'
         SVGText = 
@@ -12719,6 +12720,7 @@ object FormMain: TFormMain
       item
         MultiResBitmap = <
           item
+            Size = 20
           end>
         IconName = 'Item 1'
         SVGText = 
@@ -12769,16 +12771,16 @@ object FormMain: TFormMain
         Layers = <
           item
             Name = 'Item 0'
-            SourceRect.Right = 32.000000000000000000
-            SourceRect.Bottom = 32.000000000000000000
+            SourceRect.Right = 20.000000000000000000
+            SourceRect.Bottom = 20.000000000000000000
           end>
       end
       item
         Layers = <
           item
             Name = 'Item 1'
-            SourceRect.Right = 32.000000000000000000
-            SourceRect.Bottom = 32.000000000000000000
+            SourceRect.Right = 20.000000000000000000
+            SourceRect.Bottom = 20.000000000000000000
           end>
       end
       item

@@ -19,6 +19,14 @@ type
     Available: Boolean;
   end;
 
+  TMemo = class(FMX.Memo.TMemo)
+  private
+    FViewPositionY: Single;
+    procedure SetViewPositionY(const Value: Single);
+  published
+    property ViewPositionY: Single read FViewPositionY write SetViewPositionY;
+  end;
+
   TFrameJsonObject = class(TFrame)
     LayoutObjectStruct: TLayout;
     TabControlView: TTabControl;
@@ -181,7 +189,7 @@ uses
   {$ENDIF}
   {$IFDEF POSIX}
   Posix.Stdlib,
-  {$ENDIF POSIX} FMX.DialogService, FMX.BehaviorManager, JTD.Utils;
+  {$ENDIF POSIX} FMX.DialogService, FMX.BehaviorManager, JTD.Utils, FMX.Ani;
 
 {$R *.fmx}
 
@@ -680,7 +688,7 @@ begin
     MemoJOUnit.Model.CaretPosition := TCaretPosition.Create(TJProperty(Obj).LineNumber, 0);
     var Pt := MemoJOUnit.Caret.Pos;
     Pt.Offset(0, -MemoJOUnit.Height / 2);
-    MemoJOUnit.ViewportPosition := Pt;
+    TAnimator.AnimateFloat(MemoJOUnit, 'ViewPositionY', Pt.Y);
     MemoJOUnit.Repaint;
   end
   else if Obj is TJClass then
@@ -689,7 +697,7 @@ begin
     MemoJOUnit.Model.CaretPosition := TCaretPosition.Create(TJClass(Obj).LineNumber, 0);
     var Pt := MemoJOUnit.Caret.Pos;
     Pt.Offset(0, -MemoJOUnit.Height / 2);
-    MemoJOUnit.ViewportPosition := Pt;
+    TAnimator.AnimateFloat(MemoJOUnit, 'ViewPositionY', Pt.Y);
     MemoJOUnit.Repaint;
   end;
 end;
@@ -781,6 +789,9 @@ begin
   MemoJOSource.SelLength := 0;
   MemoJOSource.Model.CaretPosition := TCaretPosition.Create(E.Line - 1, E.Position - 1);
   TabControlJOMain.ActiveTab := TabItemJOSource;
+  var Pt := MemoJOSource.Caret.Pos;
+  Pt.Offset(0, -MemoJOSource.Height / 2);
+  TAnimator.AnimateFloat(MemoJOSource, 'ViewPositionY', Pt.Y);
   MemoJOSource.Repaint;
   MemoJOSource.SetFocus;
 end;
@@ -846,6 +857,14 @@ begin
           UpdateUnit;
         end);
     end);
+end;
+
+{ TMemo }
+
+procedure TMemo.SetViewPositionY(const Value: Single);
+begin
+  FViewPositionY := Value;
+  ViewportPosition := TPointF.Create(ViewportPosition.X, FViewPositionY);
 end;
 
 end.

@@ -201,7 +201,7 @@ object FrameJsonSchema: TFrameJsonSchema
       Align = Top
       Margins.Bottom = 8.000000000000000000
       Position.X = 6.000000000000000000
-      Position.Y = 289.000000000000000000
+      Position.Y = 265.000000000000000000
       Size.Width = 228.000000000000000000
       Size.Height = 40.000000000000000000
       Size.PlatformDefault = False
@@ -213,7 +213,7 @@ object FrameJsonSchema: TFrameJsonSchema
       Align = Top
       Margins.Bottom = 8.000000000000000000
       Position.X = 6.000000000000000000
-      Position.Y = 385.000000000000000000
+      Position.Y = 361.000000000000000000
       Size.Width = 228.000000000000000000
       Size.Height = 40.000000000000000000
       Size.PlatformDefault = False
@@ -227,7 +227,7 @@ object FrameJsonSchema: TFrameJsonSchema
       Position.X = 6.000000000000000000
       Position.Y = 6.000000000000000000
       Size.Width = 228.000000000000000000
-      Size.Height = 283.000000000000000000
+      Size.Height = 259.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 4
       object EditUnitName: TEdit
@@ -272,7 +272,7 @@ object FrameJsonSchema: TFrameJsonSchema
       end
       object CheckBoxForwardDeclarate: TCheckBox
         Position.X = 8.000000000000000000
-        Position.Y = 188.000000000000000000
+        Position.Y = 161.000000000000000000
         Size.Width = 212.000000000000000000
         Size.Height = 19.000000000000000000
         Size.PlatformDefault = False
@@ -281,7 +281,7 @@ object FrameJsonSchema: TFrameJsonSchema
       end
       object Label7: TLabel
         Position.X = 8.000000000000000000
-        Position.Y = 215.000000000000000000
+        Position.Y = 188.000000000000000000
         Size.Width = 182.000000000000000000
         Size.Height = 17.000000000000000000
         Size.PlatformDefault = False
@@ -292,7 +292,7 @@ object FrameJsonSchema: TFrameJsonSchema
         Touch.InteractiveGestures = [LongTap, DoubleTap]
         TabOrder = 2
         Position.X = 128.000000000000000000
-        Position.Y = 240.000000000000000000
+        Position.Y = 213.000000000000000000
         Size.Width = 92.000000000000000000
         Size.Height = 30.000000000000000000
         Size.PlatformDefault = False
@@ -302,7 +302,7 @@ object FrameJsonSchema: TFrameJsonSchema
         Touch.InteractiveGestures = [LongTap, DoubleTap]
         TabOrder = 1
         Position.X = 8.000000000000000000
-        Position.Y = 240.000000000000000000
+        Position.Y = 213.000000000000000000
         Size.Width = 112.000000000000000000
         Size.Height = 30.000000000000000000
         Size.PlatformDefault = False
@@ -332,7 +332,7 @@ object FrameJsonSchema: TFrameJsonSchema
       Align = Top
       Margins.Bottom = 8.000000000000000000
       Position.X = 6.000000000000000000
-      Position.Y = 337.000000000000000000
+      Position.Y = 313.000000000000000000
       Size.Width = 228.000000000000000000
       Size.Height = 40.000000000000000000
       Size.PlatformDefault = False
@@ -485,8 +485,8 @@ object FrameJsonSchema: TFrameJsonSchema
         Size.PlatformDefault = False
         TabOrder = 0
         OnPaint = MemoJOSourcePaint
-        Viewport.Width = 423.000000000000000000
-        Viewport.Height = 461.000000000000000000
+        Viewport.Width = 443.000000000000000000
+        Viewport.Height = 481.000000000000000000
       end
       object Label4: TLabel
         Align = Top

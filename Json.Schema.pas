@@ -355,7 +355,7 @@ begin
       LItem.StyleLookup := AItemStyleLookup;
       LItem.TagObject := FRootClass;
       LItem.WordWrap := False;
-      LItem.Text := FRootClass.Name;
+      LItem.Text := FRootClass.DelphiClassName;
       LItem.StylesData['details'] := '';
       ATreeView.AddObject(LItem);
       InternalVisualize(LItem, FRootClass, AItemStyleLookup);
@@ -379,20 +379,20 @@ begin
 
     if LField.PropertyType is TDTypeObject then
     begin
-      LItem.Text := LField.Name;
+      LItem.Text := LField.GetDelphiPropertyName;
       LItem.StylesData['details'] := ': ' + LField.PropertyType.Name;
       InternalVisualize(LItem, TDTypeObject(LField.PropertyType).TypeClass, AItemStyleLookup);
     end
     else if LField.PropertyType is TDTypeArray then
     begin
-      LItem.Text := LField.Name;
+      LItem.Text := LField.GetDelphiPropertyName;
       LItem.StylesData['details'] := ': ' + LField.PropertyType.Name;
       if TDTypeArray(LField.PropertyType).TypeItem is TDTypeObject then
         InternalVisualize(LItem, TDTypeObject(TDTypeArray(LField.PropertyType).TypeItem).TypeClass, AItemStyleLookup);
     end
     else
     begin
-      LItem.Text := LField.Name;
+      LItem.Text := LField.GetDelphiPropertyName;
       LItem.StylesData['details'] := ': ' + LField.PropertyType.Name;
     end;
 
@@ -672,6 +672,7 @@ begin
     for var i := FClasses.Count - 1 downto 0 do
     begin
       var LClass := FClasses[i];
+      LList.AddStrings(LClass.Meta.Render('  '));
       var L := LList.Count;
       LList.AddStrings(LClass.GetDeclarationPart(LList.Count));
       LClass.LineNumber := L;
@@ -864,7 +865,6 @@ function TDClass.GetDeclarationPart(const Offset: Integer): TArray<string>;
 begin
   var LLines := TStringList.Create;
   try
-    LLines.AddStrings(Meta.Render('  '));
     LLines.Add('  ' + DelphiClassName + ' = class' + IfThen(FMapper.BaseClassName.IsEmpty, '', '(' + FMapper.BaseClassName + ')'));
     if Properties.Count > 0 then
     begin
