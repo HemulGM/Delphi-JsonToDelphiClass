@@ -32,12 +32,12 @@ object FrameJsonSchema: TFrameJsonSchema
           item
           end>
         IsSelected = True
-        Size.Width = 47.000000000000000000
+        Size.Width = 68.000000000000000000
         Size.Height = 48.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = ''
         TabOrder = 0
-        Text = 'Class'
+        Text = 'Structure'
         ExplicitSize.cx = 56.000000000000000000
         ExplicitSize.cy = 48.000000000000000000
         object TreeViewJOClass: TTreeView
@@ -270,32 +270,13 @@ object FrameJsonSchema: TFrameJsonSchema
         Text = 'Root name'
         TabOrder = 11
       end
-      object CheckBoxSort: TCheckBox
-        Position.X = 8.000000000000000000
-        Position.Y = 134.000000000000000000
-        Size.Width = 212.000000000000000000
-        Size.Height = 19.000000000000000000
-        Size.PlatformDefault = False
-        TabOrder = 16
-        Text = 'Sort fields'
-      end
-      object CheckBoxNumericDuplicate: TCheckBox
-        IsChecked = True
-        Position.X = 8.000000000000000000
-        Position.Y = 161.000000000000000000
-        Size.Width = 212.000000000000000000
-        Size.Height = 19.000000000000000000
-        Size.PlatformDefault = False
-        TabOrder = 15
-        Text = 'Number duplicate classes'
-      end
       object CheckBoxForwardDeclarate: TCheckBox
         Position.X = 8.000000000000000000
         Position.Y = 188.000000000000000000
         Size.Width = 212.000000000000000000
         Size.Height = 19.000000000000000000
         Size.PlatformDefault = False
-        TabOrder = 14
+        TabOrder = 15
         Text = 'Forward Declarations'
       end
       object Label7: TLabel
@@ -326,6 +307,15 @@ object FrameJsonSchema: TFrameJsonSchema
         Size.Height = 30.000000000000000000
         Size.PlatformDefault = False
         TextPrompt = 'Unit'
+      end
+      object CheckBoxSkipErrors: TCheckBox
+        Position.X = 8.000000000000000000
+        Position.Y = 134.000000000000000000
+        Size.Width = 212.000000000000000000
+        Size.Height = 19.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 14
+        Text = 'Skip errors'
       end
     end
     object AniIndicatorWork: TAniIndicator
@@ -382,12 +372,12 @@ object FrameJsonSchema: TFrameJsonSchema
         item
         end>
       IsSelected = True
-      Size.Width = 89.000000000000000000
+      Size.Width = 57.000000000000000000
       Size.Height = 48.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = ''
       TabOrder = 0
-      Text = 'Source JSON'
+      Text = 'Source'
       ExplicitSize.cx = 104.000000000000000000
       ExplicitSize.cy = 48.000000000000000000
       object MemoJOSource: TMemo
@@ -647,12 +637,12 @@ object FrameJsonSchema: TFrameJsonSchema
         item
         end>
       IsSelected = False
-      Size.Width = 87.000000000000000000
+      Size.Width = 43.000000000000000000
       Size.Height = 48.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = ''
       TabOrder = 0
-      Text = 'Preview Unit'
+      Text = 'Unit'
       ExplicitSize.cx = 100.000000000000000000
       ExplicitSize.cy = 48.000000000000000000
       object MemoJOUnit: TMemo

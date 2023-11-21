@@ -45,8 +45,6 @@ type
     Label5: TLabel;
     EditRootName: TEdit;
     Label2: TLabel;
-    CheckBoxSort: TCheckBox;
-    CheckBoxNumericDuplicate: TCheckBox;
     CheckBoxForwardDeclarate: TCheckBox;
     Label7: TLabel;
     EditBaseClassName: TEdit;
@@ -103,6 +101,7 @@ type
     EditSourceURL: TEdit;
     ClearEditButtonSource: TClearEditButton;
     EditButtonSourceDownload: TEditButton;
+    CheckBoxSkipErrors: TCheckBox;
     procedure MemoJOSourceChange(Sender: TObject);
     procedure MemoJOSourceChangeTracking(Sender: TObject);
     procedure MemoJOSourcePaint(Sender: TObject; Canvas: TCanvas; const ARect: TRectF);
@@ -719,11 +718,10 @@ begin
   var JSON := MemoJOSource.Text;
   var RootName := EditRootName.Text;
 
-  JsonSchema.SortFields := CheckBoxSort.IsChecked;
+  JsonSchema.SkipErrors := CheckBoxSkipErrors.IsChecked;
   JsonSchema.DestinationUnitName := EditUnitName.Text;
   JsonSchema.BaseClassName := EditBaseClassName.Text;
   JsonSchema.BaseClassUnit := EditBaseClassUnit.Text;
-  JsonSchema.NumericDuplicate := CheckBoxNumericDuplicate.IsChecked;
   JsonSchema.ForwardDeclarate := CheckBoxForwardDeclarate.IsChecked;
 
   DoWork;

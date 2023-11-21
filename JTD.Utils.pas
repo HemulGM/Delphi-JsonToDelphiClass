@@ -19,7 +19,7 @@ begin
     try
       var RespInfo := HTTP.Get(Url, Response);
       if RespInfo.StatusCode <> 200 then
-        raise ENetHTTPClientException.Create(RespInfo.StatusText + '. Code ' + RespInfo.StatusCode.ToString);
+        raise ENetHTTPClientException.Create(RespInfo.StatusText + '. Code ' + RespInfo.StatusCode.ToString + #13#10 + 'Url: ' + Url);
       Result := Response.DataString;
     finally
       Response.Free;

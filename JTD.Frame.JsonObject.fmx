@@ -12,7 +12,7 @@ object FrameJsonObject: TFrameJsonObject
     Size.Width = 374.000000000000000000
     Size.Height = 646.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 3
+    TabOrder = 2
     object TabControlView: TTabControl
       Align = Client
       Size.Width = 362.000000000000000000
@@ -32,12 +32,12 @@ object FrameJsonObject: TFrameJsonObject
           item
           end>
         IsSelected = True
-        Size.Width = 47.000000000000000000
+        Size.Width = 68.000000000000000000
         Size.Height = 48.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = ''
         TabOrder = 0
-        Text = 'Class'
+        Text = 'Structure'
         ExplicitSize.cx = 56.000000000000000000
         ExplicitSize.cy = 48.000000000000000000
         object TreeViewJOClass: TTreeView
@@ -391,12 +391,12 @@ object FrameJsonObject: TFrameJsonObject
         item
         end>
       IsSelected = True
-      Size.Width = 89.000000000000000000
+      Size.Width = 57.000000000000000000
       Size.Height = 48.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = ''
       TabOrder = 0
-      Text = 'Source JSON'
+      Text = 'Source'
       ExplicitSize.cx = 104.000000000000000000
       ExplicitSize.cy = 48.000000000000000000
       object MemoJOSource: TMemo
@@ -467,7 +467,7 @@ object FrameJsonObject: TFrameJsonObject
         Size.Width = 443.000000000000000000
         Size.Height = 30.000000000000000000
         Size.PlatformDefault = False
-        Text = 'Paste JSON String here:'
+        Text = 'Paste JSON here:'
         TabOrder = 1
       end
       object Layout2: TLayout
@@ -610,12 +610,12 @@ object FrameJsonObject: TFrameJsonObject
         item
         end>
       IsSelected = False
-      Size.Width = 87.000000000000000000
+      Size.Width = 43.000000000000000000
       Size.Height = 48.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = ''
       TabOrder = 0
-      Text = 'Preview Unit'
+      Text = 'Unit'
       ExplicitSize.cx = 100.000000000000000000
       ExplicitSize.cy = 48.000000000000000000
       object MemoJOUnit: TMemo
