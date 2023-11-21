@@ -3,8 +3,8 @@ Delphi-JsonToDelphiClass
 
 Generates Delphi Classes based on JSON string. Just like XML Data Binding, but for JSON.
 
-![screen1](https://github.com/HemulGM/Delphi-JsonToDelphiClass/blob/master/media/2023-11-02%20(14).png?raw=true)
-![screen1](https://github.com/HemulGM/Delphi-JsonToDelphiClass/blob/master/media/2023-11-02%20(15).png?raw=true)
+![screen1](https://github.com/HemulGM/Delphi-JsonToDelphiClass/blob/master/media/screen1.png?raw=true)
+![screen1](https://github.com/HemulGM/Delphi-JsonToDelphiClass/blob/master/media/screen2.png?raw=true)
 
 Main features:
 
